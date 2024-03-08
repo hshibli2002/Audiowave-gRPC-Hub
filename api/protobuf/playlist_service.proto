@@ -4,7 +4,7 @@ package mpdb;
 
 option go_package = "github.com/hshibli2002/mbplayer/pkg/grpcapi";
 
-import "songs_service.proto";
+import "song_service.proto";
 
 service PlaylistService {
   rpc ViewSongsByPlaylist(ViewSongsByPlaylistRequest) returns (ViewSongsByPlaylistResponse);
