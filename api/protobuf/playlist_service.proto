@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package mpdb;
+
+option go_package = "github.com/hshibli2002/mbplayer/pkg/grpcapi";
+
+import "songs_service.proto";
+
+service PlaylistService {
+  rpc ViewSongsByPlaylist(ViewSongsByPlaylistRequest) returns (ViewSongsByPlaylistResponse);
+  rpc GetPlaylistByTitle(GetPlaylistByTitleRequest) returns (GetPlaylistByTitleResponse);
+  rpc GetPlaylistById(GetPlaylistByIdRequest) returns (GetPlaylistByIdResponse);
+  rpc GetPlaylistCreationTime(GetPlaylistCreationTimeRequest) returns (GetPlaylistCreationTimeResponse);
+}
+message Playlist {
+  int32 playlist_id = 1;
+  string title = 2;
+  int32 creator_id = 3;
+  string created_at = 4;
+}
+
+message ViewSongsByPlaylistRequest {
+  int32 playlist_id = 1;
+}
+
+message ViewSongsByPlaylistResponse {
+  repeated Song songs = 1;
+}
+
+message GetPlaylistByTitleRequest {
+  string title = 1;
+}
+
+message GetPlaylistByTitleResponse {
+  repeated Playlist playlists = 1;
+}
+
+message GetPlaylistByIdRequest {
+  int32 playlist_id = 1;
+}
+
+message GetPlaylistByIdResponse {
+  Playlist playlist = 1;
+}
+
+message GetPlaylistCreationTimeRequest {
+  int32 playlist_id = 1;
+}
+
+message GetPlaylistCreationTimeResponse {
+  string creation_time = 1; // Consider using a timestamp type
+}

@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package mpdb;
+
+option go_package = "github.com/hshibli2002/mbplayer/pkg/grpcapi";
+
+
+service ArtistService {
+  rpc CreatePlaylist(CreatePlaylistRequest) returns (CreatePlaylistResponse);
+  rpc DeletePlaylist(DeletePlaylistRequest) returns (DeletePlaylistResponse);
+  rpc AddSong(AddSongRequest) returns (AddSongResponse);
+  rpc DeleteSong(DeleteSongRequest) returns (DeleteSongResponse);
+  rpc CheckFollowers(CheckFollowersRequest) returns (CheckFollowersResponse);
+}
+
+message CreatePlaylistRequest {
+  int32 creator_id = 1;
+  string title = 2;
+  repeated int32 song_ids = 3;
+}
+
+message CreatePlaylistResponse {
+  int32 playlist_id = 1;
+}
+
+message DeletePlaylistRequest {
+  int32 playlist_id = 1;
+}
+
+message DeletePlaylistResponse {
+  bool success = 1;
+}
+
+message AddSongRequest {
+  int32 artist_id = 1;
+  string title = 2;
+  int32 duration = 3;
+}
+
+message AddSongResponse {
+  int32 song_id = 1;
+}
+
+message DeleteSongRequest {
+  int32 song_id = 1;
+}
+
+message DeleteSongResponse {
+  bool success = 1;
+}
+
+message CheckFollowersRequest {
+  int32 artist_id = 1;
+}
+
+message CheckFollowersResponse {
+  int32 followers_count = 1;
+}

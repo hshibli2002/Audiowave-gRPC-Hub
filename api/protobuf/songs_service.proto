@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package mpdb;
+
+option go_package = "github.com/hshibli2002/mbplayer/pkg/grpcapi";
+
+
+service SongsService {
+  rpc GetSongById(GetSongByIdRequest) returns (GetSongByIdResponse);
+  rpc GetSongByTitle(GetSongByTitleRequest) returns (GetSongByTitleResponse);
+  rpc GetSongByArtistId(GetSongByArtistIdRequest) returns (GetSongByArtistIdResponse);
+  rpc GetSongDuration(GetSongDurationRequest) returns (GetSongDurationResponse);
+  rpc GetSongCreationTime(GetSongCreationTimeRequest) returns (GetSongCreationTimeResponse);
+}
+
+message Song {
+  int32 song_id = 1;
+  string title = 2;
+  int32 artist_id = 3;
+  int32 duration = 4;
+  string created_at = 5;
+}
+
+message GetSongByIdRequest {
+  int32 song_id = 1;
+}
+
+message GetSongByIdResponse {
+  Song song = 1;
+}
+
+message GetSongByTitleRequest {
+  string title = 1;
+}
+
+message GetSongByTitleResponse {
+  repeated Song songs = 1;
+}
+
+message GetSongByArtistIdRequest {
+  int32 artist_id = 1;
+}
+
+message GetSongByArtistIdResponse {
+  repeated Song songs = 1;
+}
+
+message GetSongDurationRequest {
+  int32 song_id = 1;
+}
+
+message GetSongDurationResponse {
+  int32 duration = 1; // Duration in seconds
+}
+
+message GetSongCreationTimeRequest {
+  int32 song_id = 1;
+}
+
+message GetSongCreationTimeResponse {
+  int32 created_at = 1;
+}
