@@ -1,6 +1,6 @@
 package artist
 
-type Service interface {
+type ArtistService interface {
 	CreatePlaylist(creatorID int, title string, songIDs []int) (int, error)
 	DeletePlaylist(playlistID int) error
 	AddSong(artistID int, title string, duration int) (int, error)

@@ -1,37 +1,44 @@
-// internal/artist/service_impl.go
-
 package artist
 
-import "mbplayer/internal/store"
+import (
+	"context"
+	pb "mbplayer/pkg/grpcapi" // import the generated protobuf code
+)
 
-type artistController struct {
-	store *store.Store // This is a reference to your data store
+type artistServer struct {
+	pb.UnimplementedArtistServiceServer
+	service ArtistService
 }
 
-func NewService(store *store.Store) Service {
-	return &artistController{store: store}
+func NewArtistServer(service ArtistService) pb.ArtistServiceServer {
+	return &artistServer{service: service}
 }
 
-func (s *artistController) CreatePlaylist(creatorID int, title string, songIDs []int) (int, error) {
-	//TODO implement me
-	panic("implement me")
-}
-func (s *artistController) DeletePlaylist(playlistID int) error {
-	//TODO implement me
-	panic("implement me")
-}
+//TO DO Implement the gRPC server methods
 
-func (s *artistController) AddSong(artistID int, title string, duration int) (int, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (s *artistController) DeleteSong(songID int) error {
+func (s *artistServer) CreatePlaylist(ctx context.Context, req *pb.CreatePlaylistRequest) (*pb.CreatePlaylistResponse, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s *artistController) CheckFollowers(artistID int) (int, error) {
+func (s *artistServer) DeletePlaylist(ctx context.Context, req *pb.DeletePlaylistRequest) (*pb.DeletePlaylistResponse, error) {
 	//TODO implement me
 	panic("implement me")
 }
+
+func (s *artistServer) AddSong(ctx context.Context, req *pb.AddSongRequest) (*pb.AddSongResponse, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s *artistServer) DeleteSong(ctx context.Context, req *pb.DeleteSongRequest) (*pb.DeleteSongResponse, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s *artistServer) CheckFollowers(ctx context.Context, req *pb.CheckFollowersRequest) (*pb.CheckFollowersResponse, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+// ArtistService is the interface that provides methods for the artist service.
