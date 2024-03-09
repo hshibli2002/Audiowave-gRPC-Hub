@@ -19,26 +19,34 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_CreateUser_FullMethodName         = "/mpdb.UserService/CreateUser"
-	UserService_DeleteUser_FullMethodName         = "/mpdb.UserService/DeleteUser"
-	UserService_GetFollowedArtists_FullMethodName = "/mpdb.UserService/GetFollowedArtists"
-	UserService_GetUserById_FullMethodName        = "/mpdb.UserService/GetUserById"
-	UserService_GetFollowingCount_FullMethodName  = "/mpdb.UserService/GetFollowingCount"
-	UserService_FollowArtist_FullMethodName       = "/mpdb.UserService/FollowArtist"
-	UserService_UnfollowArtist_FullMethodName     = "/mpdb.UserService/UnfollowArtist"
+	UserService_CreateUser_FullMethodName               = "/mpdb.UserService/CreateUser"
+	UserService_GetUserById_FullMethodName              = "/mpdb.UserService/GetUserById"
+	UserService_GetUserByUsername_FullMethodName        = "/mpdb.UserService/GetUserByUsername"
+	UserService_GetUserByEmail_FullMethodName           = "/mpdb.UserService/GetUserByEmail"
+	UserService_UpdateUsername_FullMethodName           = "/mpdb.UserService/UpdateUsername"
+	UserService_UpdateUserEmail_FullMethodName          = "/mpdb.UserService/UpdateUserEmail"
+	UserService_UpdateUserFollowingCount_FullMethodName = "/mpdb.UserService/UpdateUserFollowingCount"
+	UserService_DeleteUser_FullMethodName               = "/mpdb.UserService/DeleteUser"
+	UserService_DeleteAllUsers_FullMethodName           = "/mpdb.UserService/DeleteAllUsers"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
+	// CREATE REQUESTS
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
-	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
-	GetFollowedArtists(ctx context.Context, in *GetFollowedArtistsRequest, opts ...grpc.CallOption) (*GetFollowedArtistsResponse, error)
+	// READ REQUESTS
 	GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserByIdResponse, error)
-	GetFollowingCount(ctx context.Context, in *GetFollowingCountRequest, opts ...grpc.CallOption) (*GetFollowingCountResponse, error)
-	FollowArtist(ctx context.Context, in *FollowArtistRequest, opts ...grpc.CallOption) (*FollowArtistResponse, error)
-	UnfollowArtist(ctx context.Context, in *UnfollowArtistRequest, opts ...grpc.CallOption) (*UnfollowArtistResponse, error)
+	GetUserByUsername(ctx context.Context, in *GetUsernameRequest, opts ...grpc.CallOption) (*GetUsernameResponse, error)
+	GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*GetUserByEmailResponse, error)
+	// UPDATE REQUESTS
+	UpdateUsername(ctx context.Context, in *UpdateUsernameRequest, opts ...grpc.CallOption) (*UpdateUsernameResponse, error)
+	UpdateUserEmail(ctx context.Context, in *UpdateUserEmailRequest, opts ...grpc.CallOption) (*UpdateUserEmailResponse, error)
+	UpdateUserFollowingCount(ctx context.Context, in *UpdateUserFollowingCountRequest, opts ...grpc.CallOption) (*UpdateUserFollowingCountResponse, error)
+	// DELETE REQUESTS
+	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
+	DeleteAllUsers(ctx context.Context, in *DeleteAllUsersRequest, opts ...grpc.CallOption) (*DeleteAllUsersResponse, error)
 }
 
 type userServiceClient struct {
@@ -58,24 +66,6 @@ func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserReques
 	return out, nil
 }
 
-func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
-	out := new(DeleteUserResponse)
-	err := c.cc.Invoke(ctx, UserService_DeleteUser_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) GetFollowedArtists(ctx context.Context, in *GetFollowedArtistsRequest, opts ...grpc.CallOption) (*GetFollowedArtistsResponse, error) {
-	out := new(GetFollowedArtistsResponse)
-	err := c.cc.Invoke(ctx, UserService_GetFollowedArtists_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userServiceClient) GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserByIdResponse, error) {
 	out := new(GetUserByIdResponse)
 	err := c.cc.Invoke(ctx, UserService_GetUserById_FullMethodName, in, out, opts...)
@@ -85,27 +75,63 @@ func (c *userServiceClient) GetUserById(ctx context.Context, in *GetUserByIdRequ
 	return out, nil
 }
 
-func (c *userServiceClient) GetFollowingCount(ctx context.Context, in *GetFollowingCountRequest, opts ...grpc.CallOption) (*GetFollowingCountResponse, error) {
-	out := new(GetFollowingCountResponse)
-	err := c.cc.Invoke(ctx, UserService_GetFollowingCount_FullMethodName, in, out, opts...)
+func (c *userServiceClient) GetUserByUsername(ctx context.Context, in *GetUsernameRequest, opts ...grpc.CallOption) (*GetUsernameResponse, error) {
+	out := new(GetUsernameResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUserByUsername_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) FollowArtist(ctx context.Context, in *FollowArtistRequest, opts ...grpc.CallOption) (*FollowArtistResponse, error) {
-	out := new(FollowArtistResponse)
-	err := c.cc.Invoke(ctx, UserService_FollowArtist_FullMethodName, in, out, opts...)
+func (c *userServiceClient) GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*GetUserByEmailResponse, error) {
+	out := new(GetUserByEmailResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUserByEmail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) UnfollowArtist(ctx context.Context, in *UnfollowArtistRequest, opts ...grpc.CallOption) (*UnfollowArtistResponse, error) {
-	out := new(UnfollowArtistResponse)
-	err := c.cc.Invoke(ctx, UserService_UnfollowArtist_FullMethodName, in, out, opts...)
+func (c *userServiceClient) UpdateUsername(ctx context.Context, in *UpdateUsernameRequest, opts ...grpc.CallOption) (*UpdateUsernameResponse, error) {
+	out := new(UpdateUsernameResponse)
+	err := c.cc.Invoke(ctx, UserService_UpdateUsername_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateUserEmail(ctx context.Context, in *UpdateUserEmailRequest, opts ...grpc.CallOption) (*UpdateUserEmailResponse, error) {
+	out := new(UpdateUserEmailResponse)
+	err := c.cc.Invoke(ctx, UserService_UpdateUserEmail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateUserFollowingCount(ctx context.Context, in *UpdateUserFollowingCountRequest, opts ...grpc.CallOption) (*UpdateUserFollowingCountResponse, error) {
+	out := new(UpdateUserFollowingCountResponse)
+	err := c.cc.Invoke(ctx, UserService_UpdateUserFollowingCount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
+	out := new(DeleteUserResponse)
+	err := c.cc.Invoke(ctx, UserService_DeleteUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) DeleteAllUsers(ctx context.Context, in *DeleteAllUsersRequest, opts ...grpc.CallOption) (*DeleteAllUsersResponse, error) {
+	out := new(DeleteAllUsersResponse)
+	err := c.cc.Invoke(ctx, UserService_DeleteAllUsers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -116,13 +142,19 @@ func (c *userServiceClient) UnfollowArtist(ctx context.Context, in *UnfollowArti
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
+	// CREATE REQUESTS
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
-	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
-	GetFollowedArtists(context.Context, *GetFollowedArtistsRequest) (*GetFollowedArtistsResponse, error)
+	// READ REQUESTS
 	GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error)
-	GetFollowingCount(context.Context, *GetFollowingCountRequest) (*GetFollowingCountResponse, error)
-	FollowArtist(context.Context, *FollowArtistRequest) (*FollowArtistResponse, error)
-	UnfollowArtist(context.Context, *UnfollowArtistRequest) (*UnfollowArtistResponse, error)
+	GetUserByUsername(context.Context, *GetUsernameRequest) (*GetUsernameResponse, error)
+	GetUserByEmail(context.Context, *GetUserByEmailRequest) (*GetUserByEmailResponse, error)
+	// UPDATE REQUESTS
+	UpdateUsername(context.Context, *UpdateUsernameRequest) (*UpdateUsernameResponse, error)
+	UpdateUserEmail(context.Context, *UpdateUserEmailRequest) (*UpdateUserEmailResponse, error)
+	UpdateUserFollowingCount(context.Context, *UpdateUserFollowingCountRequest) (*UpdateUserFollowingCountResponse, error)
+	// DELETE REQUESTS
+	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
+	DeleteAllUsers(context.Context, *DeleteAllUsersRequest) (*DeleteAllUsersResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -133,23 +165,29 @@ type UnimplementedUserServiceServer struct {
 func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
-}
-func (UnimplementedUserServiceServer) GetFollowedArtists(context.Context, *GetFollowedArtistsRequest) (*GetFollowedArtistsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFollowedArtists not implemented")
-}
 func (UnimplementedUserServiceServer) GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
 }
-func (UnimplementedUserServiceServer) GetFollowingCount(context.Context, *GetFollowingCountRequest) (*GetFollowingCountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingCount not implemented")
+func (UnimplementedUserServiceServer) GetUserByUsername(context.Context, *GetUsernameRequest) (*GetUsernameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByUsername not implemented")
 }
-func (UnimplementedUserServiceServer) FollowArtist(context.Context, *FollowArtistRequest) (*FollowArtistResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FollowArtist not implemented")
+func (UnimplementedUserServiceServer) GetUserByEmail(context.Context, *GetUserByEmailRequest) (*GetUserByEmailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByEmail not implemented")
 }
-func (UnimplementedUserServiceServer) UnfollowArtist(context.Context, *UnfollowArtistRequest) (*UnfollowArtistResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnfollowArtist not implemented")
+func (UnimplementedUserServiceServer) UpdateUsername(context.Context, *UpdateUsernameRequest) (*UpdateUsernameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUsername not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateUserEmail(context.Context, *UpdateUserEmailRequest) (*UpdateUserEmailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserEmail not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateUserFollowingCount(context.Context, *UpdateUserFollowingCountRequest) (*UpdateUserFollowingCountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserFollowingCount not implemented")
+}
+func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedUserServiceServer) DeleteAllUsers(context.Context, *DeleteAllUsersRequest) (*DeleteAllUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAllUsers not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -182,42 +220,6 @@ func _UserService_CreateUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).DeleteUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_DeleteUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_GetFollowedArtists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFollowedArtistsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).GetFollowedArtists(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_GetFollowedArtists_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetFollowedArtists(ctx, req.(*GetFollowedArtistsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_GetUserById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserByIdRequest)
 	if err := dec(in); err != nil {
@@ -236,56 +238,128 @@ func _UserService_GetUserById_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_GetFollowingCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFollowingCountRequest)
+func _UserService_GetUserByUsername_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUsernameRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).GetFollowingCount(ctx, in)
+		return srv.(UserServiceServer).GetUserByUsername(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_GetFollowingCount_FullMethodName,
+		FullMethod: UserService_GetUserByUsername_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetFollowingCount(ctx, req.(*GetFollowingCountRequest))
+		return srv.(UserServiceServer).GetUserByUsername(ctx, req.(*GetUsernameRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_FollowArtist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FollowArtistRequest)
+func _UserService_GetUserByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserByEmailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).FollowArtist(ctx, in)
+		return srv.(UserServiceServer).GetUserByEmail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_FollowArtist_FullMethodName,
+		FullMethod: UserService_GetUserByEmail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FollowArtist(ctx, req.(*FollowArtistRequest))
+		return srv.(UserServiceServer).GetUserByEmail(ctx, req.(*GetUserByEmailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_UnfollowArtist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnfollowArtistRequest)
+func _UserService_UpdateUsername_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUsernameRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).UnfollowArtist(ctx, in)
+		return srv.(UserServiceServer).UpdateUsername(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_UnfollowArtist_FullMethodName,
+		FullMethod: UserService_UpdateUsername_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).UnfollowArtist(ctx, req.(*UnfollowArtistRequest))
+		return srv.(UserServiceServer).UpdateUsername(ctx, req.(*UpdateUsernameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdateUserEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateUserEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateUserEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateUserEmail(ctx, req.(*UpdateUserEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdateUserFollowingCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserFollowingCountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateUserFollowingCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateUserFollowingCount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateUserFollowingCount(ctx, req.(*UpdateUserFollowingCountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_DeleteUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_DeleteAllUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAllUsersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).DeleteAllUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_DeleteAllUsers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).DeleteAllUsers(ctx, req.(*DeleteAllUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -302,28 +376,36 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_CreateUser_Handler,
 		},
 		{
-			MethodName: "DeleteUser",
-			Handler:    _UserService_DeleteUser_Handler,
-		},
-		{
-			MethodName: "GetFollowedArtists",
-			Handler:    _UserService_GetFollowedArtists_Handler,
-		},
-		{
 			MethodName: "GetUserById",
 			Handler:    _UserService_GetUserById_Handler,
 		},
 		{
-			MethodName: "GetFollowingCount",
-			Handler:    _UserService_GetFollowingCount_Handler,
+			MethodName: "GetUserByUsername",
+			Handler:    _UserService_GetUserByUsername_Handler,
 		},
 		{
-			MethodName: "FollowArtist",
-			Handler:    _UserService_FollowArtist_Handler,
+			MethodName: "GetUserByEmail",
+			Handler:    _UserService_GetUserByEmail_Handler,
 		},
 		{
-			MethodName: "UnfollowArtist",
-			Handler:    _UserService_UnfollowArtist_Handler,
+			MethodName: "UpdateUsername",
+			Handler:    _UserService_UpdateUsername_Handler,
+		},
+		{
+			MethodName: "UpdateUserEmail",
+			Handler:    _UserService_UpdateUserEmail_Handler,
+		},
+		{
+			MethodName: "UpdateUserFollowingCount",
+			Handler:    _UserService_UpdateUserFollowingCount_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _UserService_DeleteUser_Handler,
+		},
+		{
+			MethodName: "DeleteAllUsers",
+			Handler:    _UserService_DeleteAllUsers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

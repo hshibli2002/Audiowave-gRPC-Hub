@@ -3,31 +3,32 @@ package store
 import (
 	"database/sql"
 	"fmt"
-
-	_ "github.com/lib/pq" // Import the pq driver anonymously; it initializes itself.
+	_ "github.com/lib/pq"
+	"mbplayer/config"
 )
 
-// Store holds the database connection pool.
-type Store struct {
-	db *sql.DB
+// DBStore is a database store.
+type DBStore struct {
+	DB *sql.DB
 }
 
-// NewStore creates a new Store instance and opens the database connection.
-func NewStore(dsn string) (*Store, error) {
+// InitDB initializes the database connection.
+func InitDB(cfg *config.Config) (*DBStore, error) {
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
+
+	//fmt.Println("DSN:", dsn)
+
+	// Open the connection
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
-		return nil, fmt.Errorf("error opening database: %v", err)
+		return nil, err
 	}
 
-	// Verify that the database is reachable.
+	// Check the connection
 	if err := db.Ping(); err != nil {
-		return nil, fmt.Errorf("error verifying connection with database: %v", err)
+		return nil, err
 	}
 
-	return &Store{db: db}, nil
-}
-
-// Close closes the database connection.
-func (s *Store) Close() error {
-	return s.db.Close()
+	return &DBStore{DB: db}, nil
 }

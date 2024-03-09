@@ -19,22 +19,36 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ArtistService_CreatePlaylist_FullMethodName = "/mpdb.ArtistService/CreatePlaylist"
-	ArtistService_DeletePlaylist_FullMethodName = "/mpdb.ArtistService/DeletePlaylist"
-	ArtistService_AddSong_FullMethodName        = "/mpdb.ArtistService/AddSong"
-	ArtistService_DeleteSong_FullMethodName     = "/mpdb.ArtistService/DeleteSong"
-	ArtistService_CheckFollowers_FullMethodName = "/mpdb.ArtistService/CheckFollowers"
+	ArtistService_CreateArtist_FullMethodName                = "/mpdb.ArtistService/CreateArtist"
+	ArtistService_ReadArtistById_FullMethodName              = "/mpdb.ArtistService/ReadArtistById"
+	ArtistService_ReadArtistByName_FullMethodName            = "/mpdb.ArtistService/ReadArtistByName"
+	ArtistService_ReadArtistBioById_FullMethodName           = "/mpdb.ArtistService/ReadArtistBioById"
+	ArtistService_ReadArtistFollowerCountById_FullMethodName = "/mpdb.ArtistService/ReadArtistFollowerCountById"
+	ArtistService_UpdateArtistName_FullMethodName            = "/mpdb.ArtistService/UpdateArtistName"
+	ArtistService_UpdateArtistBio_FullMethodName             = "/mpdb.ArtistService/UpdateArtistBio"
+	ArtistService_UpdateArtistFollowerCount_FullMethodName   = "/mpdb.ArtistService/UpdateArtistFollowerCount"
+	ArtistService_DeleteArtistById_FullMethodName            = "/mpdb.ArtistService/DeleteArtistById"
+	ArtistService_DeleteAllArtists_FullMethodName            = "/mpdb.ArtistService/DeleteAllArtists"
 )
 
 // ArtistServiceClient is the client API for ArtistService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ArtistServiceClient interface {
-	CreatePlaylist(ctx context.Context, in *CreatePlaylistRequest, opts ...grpc.CallOption) (*CreatePlaylistResponse, error)
-	DeletePlaylist(ctx context.Context, in *DeletePlaylistRequest, opts ...grpc.CallOption) (*DeletePlaylistResponse, error)
-	AddSong(ctx context.Context, in *AddSongRequest, opts ...grpc.CallOption) (*AddSongResponse, error)
-	DeleteSong(ctx context.Context, in *DeleteSongRequest, opts ...grpc.CallOption) (*DeleteSongResponse, error)
-	CheckFollowers(ctx context.Context, in *CheckFollowersRequest, opts ...grpc.CallOption) (*CheckFollowersResponse, error)
+	// CREATE REQUEST
+	CreateArtist(ctx context.Context, in *CreateArtistRequest, opts ...grpc.CallOption) (*CreateArtistResponse, error)
+	// READ REQUEST
+	ReadArtistById(ctx context.Context, in *ReadArtistByIdRequest, opts ...grpc.CallOption) (*ReadArtistByIdResponse, error)
+	ReadArtistByName(ctx context.Context, in *ReadArtistByNameRequest, opts ...grpc.CallOption) (*ReadArtistByNameResponse, error)
+	ReadArtistBioById(ctx context.Context, in *ReadArtistBioRequest, opts ...grpc.CallOption) (*ReadArtistBioResponse, error)
+	ReadArtistFollowerCountById(ctx context.Context, in *ReadArtistFollowerCountRequest, opts ...grpc.CallOption) (*ReadArtistFollowerCountResponse, error)
+	// UPDATE REQUEST
+	UpdateArtistName(ctx context.Context, in *UpdateArtistNameRequest, opts ...grpc.CallOption) (*UpdateArtistNameResponse, error)
+	UpdateArtistBio(ctx context.Context, in *UpdateArtistBioRequest, opts ...grpc.CallOption) (*UpdateArtistBioResponse, error)
+	UpdateArtistFollowerCount(ctx context.Context, in *UpdateArtistFollowerCountRequest, opts ...grpc.CallOption) (*UpdateArtistFollowerCountResponse, error)
+	// DELETE REQUEST
+	DeleteArtistById(ctx context.Context, in *DeleteArtistByIdRequest, opts ...grpc.CallOption) (*DeleteArtistByIdResponse, error)
+	DeleteAllArtists(ctx context.Context, in *DeleteAllArtistsRequest, opts ...grpc.CallOption) (*DeleteAllArtistsResponse, error)
 }
 
 type artistServiceClient struct {
@@ -45,45 +59,90 @@ func NewArtistServiceClient(cc grpc.ClientConnInterface) ArtistServiceClient {
 	return &artistServiceClient{cc}
 }
 
-func (c *artistServiceClient) CreatePlaylist(ctx context.Context, in *CreatePlaylistRequest, opts ...grpc.CallOption) (*CreatePlaylistResponse, error) {
-	out := new(CreatePlaylistResponse)
-	err := c.cc.Invoke(ctx, ArtistService_CreatePlaylist_FullMethodName, in, out, opts...)
+func (c *artistServiceClient) CreateArtist(ctx context.Context, in *CreateArtistRequest, opts ...grpc.CallOption) (*CreateArtistResponse, error) {
+	out := new(CreateArtistResponse)
+	err := c.cc.Invoke(ctx, ArtistService_CreateArtist_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *artistServiceClient) DeletePlaylist(ctx context.Context, in *DeletePlaylistRequest, opts ...grpc.CallOption) (*DeletePlaylistResponse, error) {
-	out := new(DeletePlaylistResponse)
-	err := c.cc.Invoke(ctx, ArtistService_DeletePlaylist_FullMethodName, in, out, opts...)
+func (c *artistServiceClient) ReadArtistById(ctx context.Context, in *ReadArtistByIdRequest, opts ...grpc.CallOption) (*ReadArtistByIdResponse, error) {
+	out := new(ReadArtistByIdResponse)
+	err := c.cc.Invoke(ctx, ArtistService_ReadArtistById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *artistServiceClient) AddSong(ctx context.Context, in *AddSongRequest, opts ...grpc.CallOption) (*AddSongResponse, error) {
-	out := new(AddSongResponse)
-	err := c.cc.Invoke(ctx, ArtistService_AddSong_FullMethodName, in, out, opts...)
+func (c *artistServiceClient) ReadArtistByName(ctx context.Context, in *ReadArtistByNameRequest, opts ...grpc.CallOption) (*ReadArtistByNameResponse, error) {
+	out := new(ReadArtistByNameResponse)
+	err := c.cc.Invoke(ctx, ArtistService_ReadArtistByName_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *artistServiceClient) DeleteSong(ctx context.Context, in *DeleteSongRequest, opts ...grpc.CallOption) (*DeleteSongResponse, error) {
-	out := new(DeleteSongResponse)
-	err := c.cc.Invoke(ctx, ArtistService_DeleteSong_FullMethodName, in, out, opts...)
+func (c *artistServiceClient) ReadArtistBioById(ctx context.Context, in *ReadArtistBioRequest, opts ...grpc.CallOption) (*ReadArtistBioResponse, error) {
+	out := new(ReadArtistBioResponse)
+	err := c.cc.Invoke(ctx, ArtistService_ReadArtistBioById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *artistServiceClient) CheckFollowers(ctx context.Context, in *CheckFollowersRequest, opts ...grpc.CallOption) (*CheckFollowersResponse, error) {
-	out := new(CheckFollowersResponse)
-	err := c.cc.Invoke(ctx, ArtistService_CheckFollowers_FullMethodName, in, out, opts...)
+func (c *artistServiceClient) ReadArtistFollowerCountById(ctx context.Context, in *ReadArtistFollowerCountRequest, opts ...grpc.CallOption) (*ReadArtistFollowerCountResponse, error) {
+	out := new(ReadArtistFollowerCountResponse)
+	err := c.cc.Invoke(ctx, ArtistService_ReadArtistFollowerCountById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *artistServiceClient) UpdateArtistName(ctx context.Context, in *UpdateArtistNameRequest, opts ...grpc.CallOption) (*UpdateArtistNameResponse, error) {
+	out := new(UpdateArtistNameResponse)
+	err := c.cc.Invoke(ctx, ArtistService_UpdateArtistName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *artistServiceClient) UpdateArtistBio(ctx context.Context, in *UpdateArtistBioRequest, opts ...grpc.CallOption) (*UpdateArtistBioResponse, error) {
+	out := new(UpdateArtistBioResponse)
+	err := c.cc.Invoke(ctx, ArtistService_UpdateArtistBio_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *artistServiceClient) UpdateArtistFollowerCount(ctx context.Context, in *UpdateArtistFollowerCountRequest, opts ...grpc.CallOption) (*UpdateArtistFollowerCountResponse, error) {
+	out := new(UpdateArtistFollowerCountResponse)
+	err := c.cc.Invoke(ctx, ArtistService_UpdateArtistFollowerCount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *artistServiceClient) DeleteArtistById(ctx context.Context, in *DeleteArtistByIdRequest, opts ...grpc.CallOption) (*DeleteArtistByIdResponse, error) {
+	out := new(DeleteArtistByIdResponse)
+	err := c.cc.Invoke(ctx, ArtistService_DeleteArtistById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *artistServiceClient) DeleteAllArtists(ctx context.Context, in *DeleteAllArtistsRequest, opts ...grpc.CallOption) (*DeleteAllArtistsResponse, error) {
+	out := new(DeleteAllArtistsResponse)
+	err := c.cc.Invoke(ctx, ArtistService_DeleteAllArtists_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,11 +153,20 @@ func (c *artistServiceClient) CheckFollowers(ctx context.Context, in *CheckFollo
 // All implementations must embed UnimplementedArtistServiceServer
 // for forward compatibility
 type ArtistServiceServer interface {
-	CreatePlaylist(context.Context, *CreatePlaylistRequest) (*CreatePlaylistResponse, error)
-	DeletePlaylist(context.Context, *DeletePlaylistRequest) (*DeletePlaylistResponse, error)
-	AddSong(context.Context, *AddSongRequest) (*AddSongResponse, error)
-	DeleteSong(context.Context, *DeleteSongRequest) (*DeleteSongResponse, error)
-	CheckFollowers(context.Context, *CheckFollowersRequest) (*CheckFollowersResponse, error)
+	// CREATE REQUEST
+	CreateArtist(context.Context, *CreateArtistRequest) (*CreateArtistResponse, error)
+	// READ REQUEST
+	ReadArtistById(context.Context, *ReadArtistByIdRequest) (*ReadArtistByIdResponse, error)
+	ReadArtistByName(context.Context, *ReadArtistByNameRequest) (*ReadArtistByNameResponse, error)
+	ReadArtistBioById(context.Context, *ReadArtistBioRequest) (*ReadArtistBioResponse, error)
+	ReadArtistFollowerCountById(context.Context, *ReadArtistFollowerCountRequest) (*ReadArtistFollowerCountResponse, error)
+	// UPDATE REQUEST
+	UpdateArtistName(context.Context, *UpdateArtistNameRequest) (*UpdateArtistNameResponse, error)
+	UpdateArtistBio(context.Context, *UpdateArtistBioRequest) (*UpdateArtistBioResponse, error)
+	UpdateArtistFollowerCount(context.Context, *UpdateArtistFollowerCountRequest) (*UpdateArtistFollowerCountResponse, error)
+	// DELETE REQUEST
+	DeleteArtistById(context.Context, *DeleteArtistByIdRequest) (*DeleteArtistByIdResponse, error)
+	DeleteAllArtists(context.Context, *DeleteAllArtistsRequest) (*DeleteAllArtistsResponse, error)
 	mustEmbedUnimplementedArtistServiceServer()
 }
 
@@ -106,20 +174,35 @@ type ArtistServiceServer interface {
 type UnimplementedArtistServiceServer struct {
 }
 
-func (UnimplementedArtistServiceServer) CreatePlaylist(context.Context, *CreatePlaylistRequest) (*CreatePlaylistResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePlaylist not implemented")
+func (UnimplementedArtistServiceServer) CreateArtist(context.Context, *CreateArtistRequest) (*CreateArtistResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateArtist not implemented")
 }
-func (UnimplementedArtistServiceServer) DeletePlaylist(context.Context, *DeletePlaylistRequest) (*DeletePlaylistResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeletePlaylist not implemented")
+func (UnimplementedArtistServiceServer) ReadArtistById(context.Context, *ReadArtistByIdRequest) (*ReadArtistByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadArtistById not implemented")
 }
-func (UnimplementedArtistServiceServer) AddSong(context.Context, *AddSongRequest) (*AddSongResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddSong not implemented")
+func (UnimplementedArtistServiceServer) ReadArtistByName(context.Context, *ReadArtistByNameRequest) (*ReadArtistByNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadArtistByName not implemented")
 }
-func (UnimplementedArtistServiceServer) DeleteSong(context.Context, *DeleteSongRequest) (*DeleteSongResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteSong not implemented")
+func (UnimplementedArtistServiceServer) ReadArtistBioById(context.Context, *ReadArtistBioRequest) (*ReadArtistBioResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadArtistBioById not implemented")
 }
-func (UnimplementedArtistServiceServer) CheckFollowers(context.Context, *CheckFollowersRequest) (*CheckFollowersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckFollowers not implemented")
+func (UnimplementedArtistServiceServer) ReadArtistFollowerCountById(context.Context, *ReadArtistFollowerCountRequest) (*ReadArtistFollowerCountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadArtistFollowerCountById not implemented")
+}
+func (UnimplementedArtistServiceServer) UpdateArtistName(context.Context, *UpdateArtistNameRequest) (*UpdateArtistNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateArtistName not implemented")
+}
+func (UnimplementedArtistServiceServer) UpdateArtistBio(context.Context, *UpdateArtistBioRequest) (*UpdateArtistBioResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateArtistBio not implemented")
+}
+func (UnimplementedArtistServiceServer) UpdateArtistFollowerCount(context.Context, *UpdateArtistFollowerCountRequest) (*UpdateArtistFollowerCountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateArtistFollowerCount not implemented")
+}
+func (UnimplementedArtistServiceServer) DeleteArtistById(context.Context, *DeleteArtistByIdRequest) (*DeleteArtistByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteArtistById not implemented")
+}
+func (UnimplementedArtistServiceServer) DeleteAllArtists(context.Context, *DeleteAllArtistsRequest) (*DeleteAllArtistsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAllArtists not implemented")
 }
 func (UnimplementedArtistServiceServer) mustEmbedUnimplementedArtistServiceServer() {}
 
@@ -134,92 +217,182 @@ func RegisterArtistServiceServer(s grpc.ServiceRegistrar, srv ArtistServiceServe
 	s.RegisterService(&ArtistService_ServiceDesc, srv)
 }
 
-func _ArtistService_CreatePlaylist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreatePlaylistRequest)
+func _ArtistService_CreateArtist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateArtistRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArtistServiceServer).CreatePlaylist(ctx, in)
+		return srv.(ArtistServiceServer).CreateArtist(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ArtistService_CreatePlaylist_FullMethodName,
+		FullMethod: ArtistService_CreateArtist_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArtistServiceServer).CreatePlaylist(ctx, req.(*CreatePlaylistRequest))
+		return srv.(ArtistServiceServer).CreateArtist(ctx, req.(*CreateArtistRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArtistService_DeletePlaylist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletePlaylistRequest)
+func _ArtistService_ReadArtistById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadArtistByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArtistServiceServer).DeletePlaylist(ctx, in)
+		return srv.(ArtistServiceServer).ReadArtistById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ArtistService_DeletePlaylist_FullMethodName,
+		FullMethod: ArtistService_ReadArtistById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArtistServiceServer).DeletePlaylist(ctx, req.(*DeletePlaylistRequest))
+		return srv.(ArtistServiceServer).ReadArtistById(ctx, req.(*ReadArtistByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArtistService_AddSong_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddSongRequest)
+func _ArtistService_ReadArtistByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadArtistByNameRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArtistServiceServer).AddSong(ctx, in)
+		return srv.(ArtistServiceServer).ReadArtistByName(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ArtistService_AddSong_FullMethodName,
+		FullMethod: ArtistService_ReadArtistByName_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArtistServiceServer).AddSong(ctx, req.(*AddSongRequest))
+		return srv.(ArtistServiceServer).ReadArtistByName(ctx, req.(*ReadArtistByNameRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArtistService_DeleteSong_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteSongRequest)
+func _ArtistService_ReadArtistBioById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadArtistBioRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArtistServiceServer).DeleteSong(ctx, in)
+		return srv.(ArtistServiceServer).ReadArtistBioById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ArtistService_DeleteSong_FullMethodName,
+		FullMethod: ArtistService_ReadArtistBioById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArtistServiceServer).DeleteSong(ctx, req.(*DeleteSongRequest))
+		return srv.(ArtistServiceServer).ReadArtistBioById(ctx, req.(*ReadArtistBioRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArtistService_CheckFollowers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckFollowersRequest)
+func _ArtistService_ReadArtistFollowerCountById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadArtistFollowerCountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArtistServiceServer).CheckFollowers(ctx, in)
+		return srv.(ArtistServiceServer).ReadArtistFollowerCountById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ArtistService_CheckFollowers_FullMethodName,
+		FullMethod: ArtistService_ReadArtistFollowerCountById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArtistServiceServer).CheckFollowers(ctx, req.(*CheckFollowersRequest))
+		return srv.(ArtistServiceServer).ReadArtistFollowerCountById(ctx, req.(*ReadArtistFollowerCountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArtistService_UpdateArtistName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateArtistNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArtistServiceServer).UpdateArtistName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArtistService_UpdateArtistName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArtistServiceServer).UpdateArtistName(ctx, req.(*UpdateArtistNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArtistService_UpdateArtistBio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateArtistBioRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArtistServiceServer).UpdateArtistBio(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArtistService_UpdateArtistBio_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArtistServiceServer).UpdateArtistBio(ctx, req.(*UpdateArtistBioRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArtistService_UpdateArtistFollowerCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateArtistFollowerCountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArtistServiceServer).UpdateArtistFollowerCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArtistService_UpdateArtistFollowerCount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArtistServiceServer).UpdateArtistFollowerCount(ctx, req.(*UpdateArtistFollowerCountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArtistService_DeleteArtistById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteArtistByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArtistServiceServer).DeleteArtistById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArtistService_DeleteArtistById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArtistServiceServer).DeleteArtistById(ctx, req.(*DeleteArtistByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArtistService_DeleteAllArtists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAllArtistsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArtistServiceServer).DeleteAllArtists(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArtistService_DeleteAllArtists_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArtistServiceServer).DeleteAllArtists(ctx, req.(*DeleteAllArtistsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -232,24 +405,44 @@ var ArtistService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ArtistServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreatePlaylist",
-			Handler:    _ArtistService_CreatePlaylist_Handler,
+			MethodName: "CreateArtist",
+			Handler:    _ArtistService_CreateArtist_Handler,
 		},
 		{
-			MethodName: "DeletePlaylist",
-			Handler:    _ArtistService_DeletePlaylist_Handler,
+			MethodName: "ReadArtistById",
+			Handler:    _ArtistService_ReadArtistById_Handler,
 		},
 		{
-			MethodName: "AddSong",
-			Handler:    _ArtistService_AddSong_Handler,
+			MethodName: "ReadArtistByName",
+			Handler:    _ArtistService_ReadArtistByName_Handler,
 		},
 		{
-			MethodName: "DeleteSong",
-			Handler:    _ArtistService_DeleteSong_Handler,
+			MethodName: "ReadArtistBioById",
+			Handler:    _ArtistService_ReadArtistBioById_Handler,
 		},
 		{
-			MethodName: "CheckFollowers",
-			Handler:    _ArtistService_CheckFollowers_Handler,
+			MethodName: "ReadArtistFollowerCountById",
+			Handler:    _ArtistService_ReadArtistFollowerCountById_Handler,
+		},
+		{
+			MethodName: "UpdateArtistName",
+			Handler:    _ArtistService_UpdateArtistName_Handler,
+		},
+		{
+			MethodName: "UpdateArtistBio",
+			Handler:    _ArtistService_UpdateArtistBio_Handler,
+		},
+		{
+			MethodName: "UpdateArtistFollowerCount",
+			Handler:    _ArtistService_UpdateArtistFollowerCount_Handler,
+		},
+		{
+			MethodName: "DeleteArtistById",
+			Handler:    _ArtistService_DeleteArtistById_Handler,
+		},
+		{
+			MethodName: "DeleteAllArtists",
+			Handler:    _ArtistService_DeleteAllArtists_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

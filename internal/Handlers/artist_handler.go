@@ -1,16 +1,17 @@
-package artist
+package Handlers
 
 import (
 	"context"
+	"mbplayer/internal/Services"
 	pb "mbplayer/pkg/grpcapi" // import the generated protobuf code
 )
 
 type artistServer struct {
 	pb.UnimplementedArtistServiceServer
-	service ArtistService
+	service Services.ArtistService
 }
 
-func NewArtistServer(service ArtistService) pb.ArtistServiceServer {
+func NewArtistServer(service Services.ArtistService) pb.ArtistServiceServer {
 	return &artistServer{service: service}
 }
 

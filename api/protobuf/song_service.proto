@@ -2,61 +2,99 @@ syntax = "proto3";
 
 package mpdb;
 
-option go_package = "github.com/hshibli2002/mbplayer/pkg/grpcapi";
+option go_package = "github.com/hshibli2002/MBplayer/pkg/grpcapi;grpcapi";
 
 
 service SongsService {
+
+  // CREATE REQUESTS
+  rpc CreateSong(CreateSongRequest) returns (CreateSongResponse);
+
+  // READ REQUESTS
   rpc GetSongById(GetSongByIdRequest) returns (GetSongByIdResponse);
-  rpc GetSongByTitle(GetSongByTitleRequest) returns (GetSongByTitleResponse);
-  rpc GetSongByArtistId(GetSongByArtistIdRequest) returns (GetSongByArtistIdResponse);
-  rpc GetSongDuration(GetSongDurationRequest) returns (GetSongDurationResponse);
-  rpc GetSongCreationTime(GetSongCreationTimeRequest) returns (GetSongCreationTimeResponse);
+  rpc GetSongsByArtistId(GetSongsByArtistIdRequest) returns (GetSongsByArtistIdResponse);
+
+  // UPDATE REQUESTS
+  rpc UpdateSongTitle(UpdateSongTitleRequest) returns (UpdateSongTitleResponse);
+  rpc UpdateSongArtist(UpdateSongArtistRequest) returns (UpdateSongArtistResponse);
+
+  // DELETE REQUESTS
+  rpc DeleteSong(DeleteSongRequest) returns (DeleteSongResponse);
 }
 
 message Song {
-  int32 song_id = 1;
+  int64 id = 1;
   string title = 2;
-  int32 artist_id = 3;
+  int64 artist_id = 3;
+  int32 duration = 4;
+  string created_at = 5;
+}
+
+message CreateSongRequest {
+  string title = 1;
+   int64 artist_id = 2;
+  int32 duration = 3;
+}
+
+message CreateSongResponse {
+  int64 id = 1;
+  string title = 2;
+   int64 artist_id = 3;
   int32 duration = 4;
   string created_at = 5;
 }
 
 message GetSongByIdRequest {
-  int32 song_id = 1;
+   int64 id = 1;
 }
 
 message GetSongByIdResponse {
-  Song song = 1;
+  int64 id = 1;
+  string title = 2;
+  int64 artist_id = 3;
+  int32 duration = 4;
+  string created_at = 5;
 }
 
-message GetSongByTitleRequest {
-  string title = 1;
+message GetSongsByArtistIdRequest {
+   int64 artist_id = 1;
 }
 
-message GetSongByTitleResponse {
+message GetSongsByArtistIdResponse {
   repeated Song songs = 1;
 }
 
-message GetSongByArtistIdRequest {
-  int32 artist_id = 1;
+message UpdateSongTitleRequest {
+  int64 id = 1;
+  string title = 2;
 }
 
-message GetSongByArtistIdResponse {
-  repeated Song songs = 1;
+message UpdateSongTitleResponse {
+  int64 id = 1;
+  string title = 2;
+  int64 artist_id = 3;
 }
 
-message GetSongDurationRequest {
-  int32 song_id = 1;
+message UpdateSongArtistRequest {
+   int64 id = 1;
+   int64 artist_id = 2;
 }
 
-message GetSongDurationResponse {
-  int32 duration = 1; // Duration in seconds
+message UpdateSongArtistResponse {
+  int64 id = 1;
+  string title = 2;
+  int64 artist_id = 3;
+  int32 duration = 4;
+  string created_at = 5;
 }
 
-message GetSongCreationTimeRequest {
-  int32 song_id = 1;
+message DeleteSongRequest {
+  int64 id = 1;
 }
 
-message GetSongCreationTimeResponse {
-  int32 created_at = 1;
+message DeleteSongResponse {
+  int64 id = 1;
 }
+
+
+

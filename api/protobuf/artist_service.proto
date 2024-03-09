@@ -6,53 +6,112 @@ option go_package = "github.com/hshibli2002/mbplayer/pkg/grpcapi";
 
 
 service ArtistService {
-  rpc CreatePlaylist(CreatePlaylistRequest) returns (CreatePlaylistResponse);
-  rpc DeletePlaylist(DeletePlaylistRequest) returns (DeletePlaylistResponse);
-  rpc AddSong(AddSongRequest) returns (AddSongResponse);
-  rpc DeleteSong(DeleteSongRequest) returns (DeleteSongResponse);
-  rpc CheckFollowers(CheckFollowersRequest) returns (CheckFollowersResponse);
+  // CREATE REQUEST
+  rpc CreateArtist(CreateArtistRequest) returns (CreateArtistResponse) {}
+
+  // READ REQUEST
+  rpc ReadArtistById(ReadArtistByIdRequest) returns (ReadArtistByIdResponse) {}
+  rpc ReadArtistByName(ReadArtistByNameRequest) returns (ReadArtistByNameResponse) {}
+  rpc ReadArtistBioById(ReadArtistBioRequest) returns (ReadArtistBioResponse) {}
+  rpc ReadArtistFollowerCountById(ReadArtistFollowerCountRequest) returns (ReadArtistFollowerCountResponse) {}
+
+  // UPDATE REQUEST
+  rpc UpdateArtistName(UpdateArtistNameRequest) returns (UpdateArtistNameResponse) {}
+  rpc UpdateArtistBio(UpdateArtistBioRequest) returns (UpdateArtistBioResponse) {}
+  rpc UpdateArtistFollowerCount(UpdateArtistFollowerCountRequest) returns (UpdateArtistFollowerCountResponse) {}
+
+  // DELETE REQUEST
+  rpc DeleteArtistById(DeleteArtistByIdRequest) returns (DeleteArtistByIdResponse) {}
+  rpc DeleteAllArtists(DeleteAllArtistsRequest) returns (DeleteAllArtistsResponse) {}
 }
 
-message CreatePlaylistRequest {
-  int32 creator_id = 1;
-  string title = 2;
-  repeated int32 song_ids = 3;
+message Artist {
+   int64 id = 1;
+  string name = 2;
+  string bio = 3;
+  string created_at = 4;
+  int32 follower_count = 5;
 }
 
-message CreatePlaylistResponse {
-  int32 playlist_id = 1;
+message CreateArtistRequest {
+  string name = 1;
+  string bio = 2;
 }
 
-message DeletePlaylistRequest {
-  int32 playlist_id = 1;
+message CreateArtistResponse {
+  Artist artist = 1;
 }
 
-message DeletePlaylistResponse {
-  bool success = 1;
+message ReadArtistByIdRequest {
+   int64 id = 1;
 }
 
-message AddSongRequest {
-  int32 artist_id = 1;
-  string title = 2;
-  int32 duration = 3;
+message ReadArtistByIdResponse {
+  Artist artist = 1;
 }
 
-message AddSongResponse {
-  int32 song_id = 1;
+message ReadArtistByNameRequest {
+  string name = 1;
 }
 
-message DeleteSongRequest {
-  int32 song_id = 1;
+message ReadArtistByNameResponse {
+  Artist artist = 1;
 }
 
-message DeleteSongResponse {
-  bool success = 1;
+message ReadArtistBioRequest {
+   int64 id = 1;
 }
 
-message CheckFollowersRequest {
-  int32 artist_id = 1;
+message ReadArtistBioResponse {
+  string bio = 1;
 }
 
-message CheckFollowersResponse {
-  int32 followers_count = 1;
+message ReadArtistFollowerCountRequest {
+   int64 id = 1;
 }
+
+message ReadArtistFollowerCountResponse {
+  int32 follower_count = 1;
+}
+
+message UpdateArtistNameRequest {
+   int64 id = 1;
+  string name = 2;
+}
+
+message UpdateArtistNameResponse {
+  Artist artist = 1;
+}
+
+message UpdateArtistBioRequest {
+   int64 id = 1;
+  string bio = 2;
+}
+
+message UpdateArtistBioResponse {
+  Artist artist = 1;
+}
+
+message UpdateArtistFollowerCountRequest {
+   int64 id = 1;
+  int32 follower_count = 2;
+}
+
+message UpdateArtistFollowerCountResponse {
+  Artist artist = 1;
+}
+
+message DeleteArtistByIdRequest {
+   int64 id = 1;
+}
+
+message DeleteArtistByIdResponse {
+  Artist artist = 1;
+}
+
+message DeleteAllArtistsRequest {
+}
+
+message DeleteAllArtistsResponse {
+}
+
