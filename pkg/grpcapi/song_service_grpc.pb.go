@@ -19,22 +19,28 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SongsService_GetSongById_FullMethodName         = "/mpdb.SongsService/GetSongById"
-	SongsService_GetSongByTitle_FullMethodName      = "/mpdb.SongsService/GetSongByTitle"
-	SongsService_GetSongByArtistId_FullMethodName   = "/mpdb.SongsService/GetSongByArtistId"
-	SongsService_GetSongDuration_FullMethodName     = "/mpdb.SongsService/GetSongDuration"
-	SongsService_GetSongCreationTime_FullMethodName = "/mpdb.SongsService/GetSongCreationTime"
+	SongsService_CreateSong_FullMethodName         = "/mpdb.SongsService/CreateSong"
+	SongsService_GetSongById_FullMethodName        = "/mpdb.SongsService/GetSongById"
+	SongsService_GetSongsByArtistId_FullMethodName = "/mpdb.SongsService/GetSongsByArtistId"
+	SongsService_UpdateSongTitle_FullMethodName    = "/mpdb.SongsService/UpdateSongTitle"
+	SongsService_UpdateSongArtist_FullMethodName   = "/mpdb.SongsService/UpdateSongArtist"
+	SongsService_DeleteSong_FullMethodName         = "/mpdb.SongsService/DeleteSong"
 )
 
 // SongsServiceClient is the client API for SongsService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SongsServiceClient interface {
+	// CREATE REQUESTS
+	CreateSong(ctx context.Context, in *CreateSongRequest, opts ...grpc.CallOption) (*CreateSongResponse, error)
+	// READ REQUESTS
 	GetSongById(ctx context.Context, in *GetSongByIdRequest, opts ...grpc.CallOption) (*GetSongByIdResponse, error)
-	GetSongByTitle(ctx context.Context, in *GetSongByTitleRequest, opts ...grpc.CallOption) (*GetSongByTitleResponse, error)
-	GetSongByArtistId(ctx context.Context, in *GetSongByArtistIdRequest, opts ...grpc.CallOption) (*GetSongByArtistIdResponse, error)
-	GetSongDuration(ctx context.Context, in *GetSongDurationRequest, opts ...grpc.CallOption) (*GetSongDurationResponse, error)
-	GetSongCreationTime(ctx context.Context, in *GetSongCreationTimeRequest, opts ...grpc.CallOption) (*GetSongCreationTimeResponse, error)
+	GetSongsByArtistId(ctx context.Context, in *GetSongsByArtistIdRequest, opts ...grpc.CallOption) (*GetSongsByArtistIdResponse, error)
+	// UPDATE REQUESTS
+	UpdateSongTitle(ctx context.Context, in *UpdateSongTitleRequest, opts ...grpc.CallOption) (*UpdateSongTitleResponse, error)
+	UpdateSongArtist(ctx context.Context, in *UpdateSongArtistRequest, opts ...grpc.CallOption) (*UpdateSongArtistResponse, error)
+	// DELETE REQUESTS
+	DeleteSong(ctx context.Context, in *DeleteSongRequest, opts ...grpc.CallOption) (*DeleteSongResponse, error)
 }
 
 type songsServiceClient struct {
@@ -43,6 +49,15 @@ type songsServiceClient struct {
 
 func NewSongsServiceClient(cc grpc.ClientConnInterface) SongsServiceClient {
 	return &songsServiceClient{cc}
+}
+
+func (c *songsServiceClient) CreateSong(ctx context.Context, in *CreateSongRequest, opts ...grpc.CallOption) (*CreateSongResponse, error) {
+	out := new(CreateSongResponse)
+	err := c.cc.Invoke(ctx, SongsService_CreateSong_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *songsServiceClient) GetSongById(ctx context.Context, in *GetSongByIdRequest, opts ...grpc.CallOption) (*GetSongByIdResponse, error) {
@@ -54,36 +69,36 @@ func (c *songsServiceClient) GetSongById(ctx context.Context, in *GetSongByIdReq
 	return out, nil
 }
 
-func (c *songsServiceClient) GetSongByTitle(ctx context.Context, in *GetSongByTitleRequest, opts ...grpc.CallOption) (*GetSongByTitleResponse, error) {
-	out := new(GetSongByTitleResponse)
-	err := c.cc.Invoke(ctx, SongsService_GetSongByTitle_FullMethodName, in, out, opts...)
+func (c *songsServiceClient) GetSongsByArtistId(ctx context.Context, in *GetSongsByArtistIdRequest, opts ...grpc.CallOption) (*GetSongsByArtistIdResponse, error) {
+	out := new(GetSongsByArtistIdResponse)
+	err := c.cc.Invoke(ctx, SongsService_GetSongsByArtistId_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *songsServiceClient) GetSongByArtistId(ctx context.Context, in *GetSongByArtistIdRequest, opts ...grpc.CallOption) (*GetSongByArtistIdResponse, error) {
-	out := new(GetSongByArtistIdResponse)
-	err := c.cc.Invoke(ctx, SongsService_GetSongByArtistId_FullMethodName, in, out, opts...)
+func (c *songsServiceClient) UpdateSongTitle(ctx context.Context, in *UpdateSongTitleRequest, opts ...grpc.CallOption) (*UpdateSongTitleResponse, error) {
+	out := new(UpdateSongTitleResponse)
+	err := c.cc.Invoke(ctx, SongsService_UpdateSongTitle_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *songsServiceClient) GetSongDuration(ctx context.Context, in *GetSongDurationRequest, opts ...grpc.CallOption) (*GetSongDurationResponse, error) {
-	out := new(GetSongDurationResponse)
-	err := c.cc.Invoke(ctx, SongsService_GetSongDuration_FullMethodName, in, out, opts...)
+func (c *songsServiceClient) UpdateSongArtist(ctx context.Context, in *UpdateSongArtistRequest, opts ...grpc.CallOption) (*UpdateSongArtistResponse, error) {
+	out := new(UpdateSongArtistResponse)
+	err := c.cc.Invoke(ctx, SongsService_UpdateSongArtist_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *songsServiceClient) GetSongCreationTime(ctx context.Context, in *GetSongCreationTimeRequest, opts ...grpc.CallOption) (*GetSongCreationTimeResponse, error) {
-	out := new(GetSongCreationTimeResponse)
-	err := c.cc.Invoke(ctx, SongsService_GetSongCreationTime_FullMethodName, in, out, opts...)
+func (c *songsServiceClient) DeleteSong(ctx context.Context, in *DeleteSongRequest, opts ...grpc.CallOption) (*DeleteSongResponse, error) {
+	out := new(DeleteSongResponse)
+	err := c.cc.Invoke(ctx, SongsService_DeleteSong_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,11 +109,16 @@ func (c *songsServiceClient) GetSongCreationTime(ctx context.Context, in *GetSon
 // All implementations must embed UnimplementedSongsServiceServer
 // for forward compatibility
 type SongsServiceServer interface {
+	// CREATE REQUESTS
+	CreateSong(context.Context, *CreateSongRequest) (*CreateSongResponse, error)
+	// READ REQUESTS
 	GetSongById(context.Context, *GetSongByIdRequest) (*GetSongByIdResponse, error)
-	GetSongByTitle(context.Context, *GetSongByTitleRequest) (*GetSongByTitleResponse, error)
-	GetSongByArtistId(context.Context, *GetSongByArtistIdRequest) (*GetSongByArtistIdResponse, error)
-	GetSongDuration(context.Context, *GetSongDurationRequest) (*GetSongDurationResponse, error)
-	GetSongCreationTime(context.Context, *GetSongCreationTimeRequest) (*GetSongCreationTimeResponse, error)
+	GetSongsByArtistId(context.Context, *GetSongsByArtistIdRequest) (*GetSongsByArtistIdResponse, error)
+	// UPDATE REQUESTS
+	UpdateSongTitle(context.Context, *UpdateSongTitleRequest) (*UpdateSongTitleResponse, error)
+	UpdateSongArtist(context.Context, *UpdateSongArtistRequest) (*UpdateSongArtistResponse, error)
+	// DELETE REQUESTS
+	DeleteSong(context.Context, *DeleteSongRequest) (*DeleteSongResponse, error)
 	mustEmbedUnimplementedSongsServiceServer()
 }
 
@@ -106,20 +126,23 @@ type SongsServiceServer interface {
 type UnimplementedSongsServiceServer struct {
 }
 
+func (UnimplementedSongsServiceServer) CreateSong(context.Context, *CreateSongRequest) (*CreateSongResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSong not implemented")
+}
 func (UnimplementedSongsServiceServer) GetSongById(context.Context, *GetSongByIdRequest) (*GetSongByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSongById not implemented")
 }
-func (UnimplementedSongsServiceServer) GetSongByTitle(context.Context, *GetSongByTitleRequest) (*GetSongByTitleResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSongByTitle not implemented")
+func (UnimplementedSongsServiceServer) GetSongsByArtistId(context.Context, *GetSongsByArtistIdRequest) (*GetSongsByArtistIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSongsByArtistId not implemented")
 }
-func (UnimplementedSongsServiceServer) GetSongByArtistId(context.Context, *GetSongByArtistIdRequest) (*GetSongByArtistIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSongByArtistId not implemented")
+func (UnimplementedSongsServiceServer) UpdateSongTitle(context.Context, *UpdateSongTitleRequest) (*UpdateSongTitleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSongTitle not implemented")
 }
-func (UnimplementedSongsServiceServer) GetSongDuration(context.Context, *GetSongDurationRequest) (*GetSongDurationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSongDuration not implemented")
+func (UnimplementedSongsServiceServer) UpdateSongArtist(context.Context, *UpdateSongArtistRequest) (*UpdateSongArtistResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSongArtist not implemented")
 }
-func (UnimplementedSongsServiceServer) GetSongCreationTime(context.Context, *GetSongCreationTimeRequest) (*GetSongCreationTimeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSongCreationTime not implemented")
+func (UnimplementedSongsServiceServer) DeleteSong(context.Context, *DeleteSongRequest) (*DeleteSongResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSong not implemented")
 }
 func (UnimplementedSongsServiceServer) mustEmbedUnimplementedSongsServiceServer() {}
 
@@ -132,6 +155,24 @@ type UnsafeSongsServiceServer interface {
 
 func RegisterSongsServiceServer(s grpc.ServiceRegistrar, srv SongsServiceServer) {
 	s.RegisterService(&SongsService_ServiceDesc, srv)
+}
+
+func _SongsService_CreateSong_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSongRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SongsServiceServer).CreateSong(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SongsService_CreateSong_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SongsServiceServer).CreateSong(ctx, req.(*CreateSongRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _SongsService_GetSongById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -152,74 +193,74 @@ func _SongsService_GetSongById_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SongsService_GetSongByTitle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSongByTitleRequest)
+func _SongsService_GetSongsByArtistId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSongsByArtistIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SongsServiceServer).GetSongByTitle(ctx, in)
+		return srv.(SongsServiceServer).GetSongsByArtistId(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SongsService_GetSongByTitle_FullMethodName,
+		FullMethod: SongsService_GetSongsByArtistId_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SongsServiceServer).GetSongByTitle(ctx, req.(*GetSongByTitleRequest))
+		return srv.(SongsServiceServer).GetSongsByArtistId(ctx, req.(*GetSongsByArtistIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SongsService_GetSongByArtistId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSongByArtistIdRequest)
+func _SongsService_UpdateSongTitle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSongTitleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SongsServiceServer).GetSongByArtistId(ctx, in)
+		return srv.(SongsServiceServer).UpdateSongTitle(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SongsService_GetSongByArtistId_FullMethodName,
+		FullMethod: SongsService_UpdateSongTitle_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SongsServiceServer).GetSongByArtistId(ctx, req.(*GetSongByArtistIdRequest))
+		return srv.(SongsServiceServer).UpdateSongTitle(ctx, req.(*UpdateSongTitleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SongsService_GetSongDuration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSongDurationRequest)
+func _SongsService_UpdateSongArtist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSongArtistRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SongsServiceServer).GetSongDuration(ctx, in)
+		return srv.(SongsServiceServer).UpdateSongArtist(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SongsService_GetSongDuration_FullMethodName,
+		FullMethod: SongsService_UpdateSongArtist_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SongsServiceServer).GetSongDuration(ctx, req.(*GetSongDurationRequest))
+		return srv.(SongsServiceServer).UpdateSongArtist(ctx, req.(*UpdateSongArtistRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SongsService_GetSongCreationTime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSongCreationTimeRequest)
+func _SongsService_DeleteSong_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSongRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SongsServiceServer).GetSongCreationTime(ctx, in)
+		return srv.(SongsServiceServer).DeleteSong(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SongsService_GetSongCreationTime_FullMethodName,
+		FullMethod: SongsService_DeleteSong_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SongsServiceServer).GetSongCreationTime(ctx, req.(*GetSongCreationTimeRequest))
+		return srv.(SongsServiceServer).DeleteSong(ctx, req.(*DeleteSongRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -232,24 +273,28 @@ var SongsService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SongsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "CreateSong",
+			Handler:    _SongsService_CreateSong_Handler,
+		},
+		{
 			MethodName: "GetSongById",
 			Handler:    _SongsService_GetSongById_Handler,
 		},
 		{
-			MethodName: "GetSongByTitle",
-			Handler:    _SongsService_GetSongByTitle_Handler,
+			MethodName: "GetSongsByArtistId",
+			Handler:    _SongsService_GetSongsByArtistId_Handler,
 		},
 		{
-			MethodName: "GetSongByArtistId",
-			Handler:    _SongsService_GetSongByArtistId_Handler,
+			MethodName: "UpdateSongTitle",
+			Handler:    _SongsService_UpdateSongTitle_Handler,
 		},
 		{
-			MethodName: "GetSongDuration",
-			Handler:    _SongsService_GetSongDuration_Handler,
+			MethodName: "UpdateSongArtist",
+			Handler:    _SongsService_UpdateSongArtist_Handler,
 		},
 		{
-			MethodName: "GetSongCreationTime",
-			Handler:    _SongsService_GetSongCreationTime_Handler,
+			MethodName: "DeleteSong",
+			Handler:    _SongsService_DeleteSong_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

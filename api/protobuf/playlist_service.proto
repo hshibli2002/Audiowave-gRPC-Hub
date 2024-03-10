@@ -2,29 +2,47 @@ syntax = "proto3";
 
 package mpdb;
 
-option go_package = "github.com/hshibli2002/mbplayer/pkg/grpcapi";
+option go_package = "github.com/hshibli2002/MBplayer/pkg/grpcapi;grpcapi";
 
-import "song_service.proto";
 
 service PlaylistService {
-  rpc ViewSongsByPlaylist(ViewSongsByPlaylistRequest) returns (ViewSongsByPlaylistResponse);
-  rpc GetPlaylistByTitle(GetPlaylistByTitleRequest) returns (GetPlaylistByTitleResponse);
-  rpc GetPlaylistById(GetPlaylistByIdRequest) returns (GetPlaylistByIdResponse);
-  rpc GetPlaylistCreationTime(GetPlaylistCreationTimeRequest) returns (GetPlaylistCreationTimeResponse);
+  // CREATE REQUEST
+  rpc CreatePlaylist(CreatePlaylistRequest) returns (CreatePlaylistResponse) {}
+
+  // READ REQUEST
+  rpc GetPlaylistByID(GetPlaylistByIDRequest) returns (GetPlaylistByIDResponse) {}
+  rpc GetPlaylistByTitle(GetPlaylistByTitleRequest) returns (GetPlaylistByTitleResponse) {}
+  rpc GetPlaylistByCreatorID(GetPlaylistByCreatorIDRequest) returns (GetPlaylistByCreatorIDResponse) {}
+
+  // UPDATE REQUEST
+  rpc UpdatePlaylistTitle(UpdatePlaylistTitleRequest) returns (UpdatePlaylistTitleResponse) {}
+
+  // DELETE REQUEST
+  rpc DeletePlaylist(DeletePlaylistRequest) returns (DeletePlaylistResponse) {}
 }
+
 message Playlist {
-  int32 playlist_id = 1;
+  string id = 1;
   string title = 2;
-  int32 creator_id = 3;
+  int64 creator_id = 3;
   string created_at = 4;
 }
 
-message ViewSongsByPlaylistRequest {
-  int32 playlist_id = 1;
+message CreatePlaylistRequest {
+  string title = 1;
+  int64 creator_id = 2;
 }
 
-message ViewSongsByPlaylistResponse {
-  repeated Song songs = 1;
+message CreatePlaylistResponse {
+  Playlist playlist = 1;
+}
+
+message GetPlaylistByIDRequest {
+  string id = 1;
+}
+
+message GetPlaylistByIDResponse {
+  Playlist playlist = 1;
 }
 
 message GetPlaylistByTitleRequest {
@@ -35,18 +53,30 @@ message GetPlaylistByTitleResponse {
   repeated Playlist playlists = 1;
 }
 
-message GetPlaylistByIdRequest {
-  int32 playlist_id = 1;
+message GetPlaylistByCreatorIDRequest {
+  int64 creator_id = 1;
 }
 
-message GetPlaylistByIdResponse {
-  Playlist playlist = 1;
+message GetPlaylistByCreatorIDResponse {
+  repeated Playlist playlists = 1;
 }
 
-message GetPlaylistCreationTimeRequest {
-  int32 playlist_id = 1;
+message UpdatePlaylistTitleRequest {
+  string id = 1;
+  string title = 2;
 }
 
-message GetPlaylistCreationTimeResponse {
-  string creation_time = 1; // Consider using a timestamp type
+message UpdatePlaylistTitleResponse {
+  string id = 1;
+  string title = 2;
 }
+
+message DeletePlaylistRequest {
+  string id = 1;
+}
+
+message DeletePlaylistResponse {
+  string id = 1;
+}
+
+
