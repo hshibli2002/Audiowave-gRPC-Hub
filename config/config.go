@@ -1,8 +1,9 @@
 package config
 
 import (
+	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
-	_ "log"
+	"log"
 )
 
 type Config struct {
@@ -14,19 +15,19 @@ type Config struct {
 }
 
 func LoadConfig() (*Config, error) {
-	viper.AddConfigPath(".")
-	viper.SetConfigName(".env")
+	// Load the .env file
+	if err := godotenv.Load(); err != nil {
+		log.Printf("No .env file found")
+	}
 
 	viper.AutomaticEnv() // Override values from environment variables
 
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
-	}
-
 	var config Config
-	if err := viper.Unmarshal(&config); err != nil {
-		return nil, err
-	}
+	config.DBHost = viper.GetString("DB_HOST")
+	config.DBPort = viper.GetString("DB_PORT")
+	config.DBUser = viper.GetString("DB_USER")
+	config.DBPassword = viper.GetString("DB_PASSWORD")
+	config.DBName = viper.GetString("DB_NAME")
 
 	return &config, nil
 }

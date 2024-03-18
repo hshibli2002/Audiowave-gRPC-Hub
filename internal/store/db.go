@@ -17,11 +17,17 @@ func InitDB(cfg *config.Config) (*DBStore, error) {
 	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 
-	//fmt.Println("DSN:", dsn)
-
-	// Open the connection
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
+		return nil, err
+	}
+
+	// Set the schema search path
+	if _, err := db.Exec("SET search_path TO mpdb, public"); err != nil {
+		err := db.Close()
+		if err != nil {
+			return nil, err
+		}
 		return nil, err
 	}
 

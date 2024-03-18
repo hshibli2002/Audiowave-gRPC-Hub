@@ -13,104 +13,86 @@ service UserService {
   //  READ REQUESTS
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {}
   rpc GetUserByUsername(GetUsernameRequest) returns (GetUsernameResponse) {}
-  rpc GetUserByEmail(GetUserByEmailRequest) returns (GetUserByEmailResponse) {}
 
   //  UPDATE REQUESTS
-  rpc UpdateUsername(UpdateUsernameRequest) returns (UpdateUsernameResponse) {}
-  rpc UpdateUserEmail(UpdateUserEmailRequest) returns (UpdateUserEmailResponse) {}
-  rpc UpdateUserFollowingCount(UpdateUserFollowingCountRequest) returns (UpdateUserFollowingCountResponse) {}
+  rpc UpdateUsername(UpdateUserRequest) returns (UpdateUserResponse) {}
 
   //  DELETE REQUESTS
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
   rpc DeleteAllUsers(DeleteAllUsersRequest) returns (DeleteAllUsersResponse) {}
+
+  //Additional Requests
+  rpc IncrementLikes(IncrementLikesRequest) returns (IncrementLikesResponse) {}
+  rpc IncrementFollowingCount(IncrementFollowingCountRequest) returns (IncrementFollowingCountResponse) {}
 }
 
 message User {
-   int64 id = 1;
-  string username = 2;
-  string email = 3;
-  string password = 4;
-  string created_at = 5;
-  int32 following_count = 6;
+  int64 user_id = 1;          // Unique identifier for the user
+  string username = 2;        // User's username
+  string email = 3;           // User's email address
+  string password = 4;        // User's password
+  int32 likes_given = 5;      // Total number of likes given by the user
+  int32 follows_given = 6;    // Total number of follows given by the user
 }
 
-
 message CreateUserRequest {
-  string username = 1;
-  string email = 2;
-  string password = 3;
+  string username = 1;        // User's username
+  string email = 2;           // User's email address
+  string password = 3;        // User's password
 }
 
 message CreateUserResponse {
-  User user = 1;
+  User user = 1;              // User object
 }
 
 message GetUserByIdRequest {
-   int64 id = 1;
+  int64 user_id = 1;          // Unique identifier for the user
 }
 
 message GetUserByIdResponse {
-  User user = 1;
+  User user = 1;              // User object
 }
 
 message GetUsernameRequest {
-  string username = 1;
+  string username = 1;        // User's username
 }
 
 message GetUsernameResponse {
-  User user = 1;
+  User user = 1;              // User object
 }
 
-message GetUserByEmailRequest {
-  string email = 1;
+message UpdateUserRequest {
+  int64 user_id = 1;          // Unique identifier for the user
 }
 
-message GetUserByEmailResponse {
-  User user = 1;
-}
-
-message UpdateUsernameRequest {
-   int64 id = 1;
-  string username = 2;
-}
-
-message UpdateUsernameResponse {
-  User user = 1;
-}
-
-message UpdateUserEmailRequest {
-   int64 id = 1;
-  string email = 2;
-}
-
-message UpdateUserEmailResponse {
-  User user = 1;
-}
-
-message UpdateUserFollowingCountRequest {
-   int64 id = 1;
-  int32 following_count = 2;
-}
-
-message UpdateUserFollowingCountResponse {
-  User user = 1;
+message UpdateUserResponse {
+  User user = 1;              // User object
 }
 
 message DeleteUserRequest {
-   int64 id = 1;
+  int64 user_id = 1;          // Unique identifier for the user
 }
 
-message DeleteUserResponse {
-  string result  = 1;
+message DeleteUserResponse {}
+
+message DeleteAllUsersRequest {}
+
+message DeleteAllUsersResponse {}
+
+message IncrementLikesRequest {
+  int64 user_id = 1;          // Unique identifier for the user
+  int32 likes_given = 2;      // Total number of likes given by the user
 }
 
-message DeleteAllUsersRequest {
+message IncrementLikesResponse {
+  User user = 1;              // User object
 }
 
-message DeleteAllUsersResponse {
-  string result = 1;
+message IncrementFollowingCountRequest {
+  int64 user_id = 1;          // Unique identifier for the user
+  int32 follows_given = 2;    // Total number of follows given by the user
 }
 
-
-
-
+message IncrementFollowingCountResponse {
+  User user = 1;              // User object
+}
