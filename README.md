@@ -1,6 +1,6 @@
 # MBPlayer gRPC Service
 
-MBPlayer is a music player backend service implemented using Go, gRPC, PostgreSQL, and optionally Elasticsearch for advanced searching capabilities. It provides functionalities for managing songs, artists, and playlists.
+MBPlayer is a music data management service implemented using Go, gRPC, PostgreSQL, and Elasticsearch for advanced searching capabilities. It provides functionalities for managing songs, artists, and playlists.
 
 ## Features
 
