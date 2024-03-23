@@ -5,5 +5,5 @@ type Artist struct {
 	Name      string `json:"name"`
 	Bio       string `json:"bio"`
 	Followers int32  `json:"followers_count"`
-	Likes     int    `json:"likes_count"`
+	Likes     int32  `json:"likes_count"`
 }

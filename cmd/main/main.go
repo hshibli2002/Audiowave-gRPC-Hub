@@ -5,7 +5,11 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"mbplayer/config"
+	"mbplayer/internal/Handlers"
+	"mbplayer/internal/Services"
 	"mbplayer/internal/store"
+	queries "mbplayer/internal/store/Queries"
+	pb "mbplayer/pkg/grpcapi"
 	"net"
 	"os"
 )
@@ -30,8 +34,14 @@ func main() {
 
 	fmt.Println("Successfully connected to the database")
 
-	// Create a new gRPC server instance
+	artistQueries := queries.NewArtistQueries(dbStore.DB)
+
+	artistService := Services.NewArtistService(artistQueries) // Hypothetical constructor
+
+	artistHandler := Handlers.NewArtistHandler(artistService)
+
 	grpcServer := grpc.NewServer()
+	pb.RegisterArtistServiceServer(grpcServer, artistHandler)
 
 	port := "50051"
 	if envPort := os.Getenv("GRPC_PORT"); envPort != "" {

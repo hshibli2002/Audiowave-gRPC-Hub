@@ -14,11 +14,13 @@ service ArtistService {
   rpc ReadArtistByName(ReadArtistByNameRequest) returns (ReadArtistByNameResponse) {}
   rpc ReadArtistBioById(ReadArtistBioRequest) returns (ReadArtistBioResponse) {}
   rpc ReadArtistFollowerCountById(ReadArtistFollowerCountRequest) returns (ReadArtistFollowerCountResponse) {}
+  rpc ReadArtistLikesCountById(ReadArtistLikesCountRequest) returns (ReadArtistLikesCountResponse) {}
 
   // UPDATE REQUEST
   rpc UpdateArtistName(UpdateArtistNameRequest) returns (UpdateArtistNameResponse) {}
   rpc UpdateArtistBio(UpdateArtistBioRequest) returns (UpdateArtistBioResponse) {}
   rpc UpdateArtistFollowerCount(UpdateArtistFollowerCountRequest) returns (UpdateArtistFollowerCountResponse) {}
+  rpc UpdateArtistLikesCount(UpdateArtistLikesCountRequest) returns (UpdateArtistLikesCountResponse) {}
 
   // DELETE REQUEST
   rpc DeleteArtistById(DeleteArtistByIdRequest) returns (DeleteArtistByIdResponse) {}
@@ -26,11 +28,11 @@ service ArtistService {
 }
 
 message Artist {
-   int64 id = 1;
+  int64 id = 1;
   string name = 2;
   string bio = 3;
-  string created_at = 4;
   int32 follower_count = 5;
+  int32 likes_count = 6;
 }
 
 message CreateArtistRequest {
@@ -74,6 +76,14 @@ message ReadArtistFollowerCountResponse {
   int32 follower_count = 1;
 }
 
+message ReadArtistLikesCountRequest {
+   int64 id = 1;
+}
+
+message ReadArtistLikesCountResponse {
+  int32 likes_count = 1;
+}
+
 message UpdateArtistNameRequest {
    int64 id = 1;
   string name = 2;
@@ -94,10 +104,19 @@ message UpdateArtistBioResponse {
 
 message UpdateArtistFollowerCountRequest {
    int64 id = 1;
-  int32 follower_count = 2;
+   int32 follower_count = 2;
 }
 
 message UpdateArtistFollowerCountResponse {
+  Artist artist = 1;
+}
+
+message UpdateArtistLikesCountRequest {
+   int64 id = 1;
+   int32 likes_count = 2;
+}
+
+message UpdateArtistLikesCountResponse {
   Artist artist = 1;
 }
 
@@ -106,7 +125,6 @@ message DeleteArtistByIdRequest {
 }
 
 message DeleteArtistByIdResponse {
-  Artist artist = 1;
 }
 
 message DeleteAllArtistsRequest {
