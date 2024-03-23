@@ -3,38 +3,39 @@ package store
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
-	"mbplayer/config"
+	_ "github.com/lib/pq" // PostgreSQL driver
+	"mbplayer/config"     // Adjust the import path according to your project structure
 )
 
-// DBStore is a database store.
+// DBStore is a database store that holds a SQL DB connection.
 type DBStore struct {
 	DB *sql.DB
 }
 
-// InitDB initializes the database connection.
+// InitDB initializes the database connection using configuration from the cfg parameter.
 func InitDB(cfg *config.Config) (*DBStore, error) {
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+	// Ensure that sslmode is set to 'require' as per your Neon connection requirements
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=require",
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 
+	// Open the database connection
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to open database connection: %w", err)
 	}
 
-	// Set the schema search path
+	// Optionally, set the schema search path to mpdb, public if necessary for your application
 	if _, err := db.Exec("SET search_path TO mpdb, public"); err != nil {
-		err := db.Close()
-		if err != nil {
-			return nil, err
-		}
-		return nil, err
+		_ = db.Close() // Attempt to close the database connection on error
+		return nil, fmt.Errorf("failed to set search path: %w", err)
 	}
 
-	// Check the connection
+	// Verify the database connection
 	if err := db.Ping(); err != nil {
-		return nil, err
+		_ = db.Close() // Attempt to close the database connection on error
+		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
+	// Return the DBStore containing the established database connection
 	return &DBStore{DB: db}, nil
 }
