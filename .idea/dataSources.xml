@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="MBplayer@localhost" uuid="47fdc3ef-4131-44aa-8906-19b4de45c079">
+    <data-source source="LOCAL" name="mpdb@ep-sweet-lake-a2w5tsc7.eu-central-1.aws.neon.tech" uuid="588e2d95-eabd-4128-a323-7873c807005b">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/MBplayer</jdbc-url>
+      <jdbc-url>jdbc:postgresql://ep-sweet-lake-a2w5tsc7.eu-central-1.aws.neon.tech:5432/mpdb?sslmode=require</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
