@@ -13,6 +13,7 @@ type ArtistService interface {
 	ReadArtistBioById(ctx context.Context, id int64) (string, error)
 	ReadArtistFollowerCount(ctx context.Context, id int64) (int32, error)
 	ReadArtistLikesCount(ctx context.Context, id int64) (int32, error)
+	ReadAllArtists(ctx context.Context) ([]*Models.Artist, error)
 	UpdateArtistName(ctx context.Context, id int64, name string) (*Models.Artist, error)
 	UpdateArtistBio(ctx context.Context, id int64, bio string) (*Models.Artist, error)
 	UpdateArtistFollowerCount(ctx context.Context, id int64) (*Models.Artist, error)
@@ -51,6 +52,10 @@ func (a *ArtistServiceImpl) ReadArtistFollowerCount(ctx context.Context, id int6
 
 func (a *ArtistServiceImpl) ReadArtistLikesCount(ctx context.Context, id int64) (int32, error) {
 	return a.Queries.ReadArtistLikesCount(ctx, id)
+}
+
+func (a *ArtistServiceImpl) ReadAllArtists(ctx context.Context) ([]*Models.Artist, error) {
+	return a.Queries.ReadAllArtists(ctx)
 }
 
 func (a *ArtistServiceImpl) UpdateArtistName(ctx context.Context, id int64, name string) (*Models.Artist, error) {

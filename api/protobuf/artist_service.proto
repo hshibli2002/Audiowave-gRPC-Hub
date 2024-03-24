@@ -15,6 +15,7 @@ service ArtistService {
   rpc ReadArtistBioById(ReadArtistBioRequest) returns (ReadArtistBioResponse) {}
   rpc ReadArtistFollowerCountById(ReadArtistFollowerCountRequest) returns (ReadArtistFollowerCountResponse) {}
   rpc ReadArtistLikesCountById(ReadArtistLikesCountRequest) returns (ReadArtistLikesCountResponse) {}
+  rpc ReadAllArtists(ReadAllArtistsRequest) returns (ReadAllArtistsResponse) {}
 
   // UPDATE REQUEST
   rpc UpdateArtistName(UpdateArtistNameRequest) returns (UpdateArtistNameResponse) {}
@@ -81,6 +82,14 @@ message ReadArtistLikesCountRequest {
 
 message ReadArtistLikesCountResponse {
   int32 likes_count = 1;
+}
+
+message ReadAllArtistsRequest {
+}
+
+message ReadAllArtistsResponse {
+  bool success = 1;
+  repeated Artist artists = 2;
 }
 
 message UpdateArtistNameRequest {

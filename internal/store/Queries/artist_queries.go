@@ -94,6 +94,28 @@ func (a *ArtistQueries) ReadArtistLikesCount(ctx context.Context, id int64) (int
 	return likes, nil
 }
 
+func (a *ArtistQueries) ReadAllArtists(ctx context.Context) ([]*Models.Artist, error) {
+	query := `SELECT * from mpdb.artists`
+	rows, err := a.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	var artists []*Models.Artist
+	for rows.Next() {
+		var artist Models.Artist
+		err = rows.Scan(&artist.ID, &artist.Name, &artist.Bio, &artist.Followers, &artist.Likes)
+		if err != nil {
+			return nil, err
+		}
+		artists = append(artists, &artist)
+	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return artists, nil
+}
+
 func (a *ArtistQueries) UpdateArtistName(ctx context.Context, id int64, name string) (*Models.Artist, error) {
 	query := `UPDATE mpdb.artists SET name = $1 WHERE artist_id = $2`
 	_, err := a.db.ExecContext(ctx, query, name, id)

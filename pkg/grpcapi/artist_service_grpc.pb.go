@@ -25,6 +25,7 @@ const (
 	ArtistService_ReadArtistBioById_FullMethodName           = "/mpdb.ArtistService/ReadArtistBioById"
 	ArtistService_ReadArtistFollowerCountById_FullMethodName = "/mpdb.ArtistService/ReadArtistFollowerCountById"
 	ArtistService_ReadArtistLikesCountById_FullMethodName    = "/mpdb.ArtistService/ReadArtistLikesCountById"
+	ArtistService_ReadAllArtists_FullMethodName              = "/mpdb.ArtistService/ReadAllArtists"
 	ArtistService_UpdateArtistName_FullMethodName            = "/mpdb.ArtistService/UpdateArtistName"
 	ArtistService_UpdateArtistBio_FullMethodName             = "/mpdb.ArtistService/UpdateArtistBio"
 	ArtistService_UpdateArtistFollowerCount_FullMethodName   = "/mpdb.ArtistService/UpdateArtistFollowerCount"
@@ -44,6 +45,7 @@ type ArtistServiceClient interface {
 	ReadArtistBioById(ctx context.Context, in *ReadArtistBioRequest, opts ...grpc.CallOption) (*ReadArtistBioResponse, error)
 	ReadArtistFollowerCountById(ctx context.Context, in *ReadArtistFollowerCountRequest, opts ...grpc.CallOption) (*ReadArtistFollowerCountResponse, error)
 	ReadArtistLikesCountById(ctx context.Context, in *ReadArtistLikesCountRequest, opts ...grpc.CallOption) (*ReadArtistLikesCountResponse, error)
+	ReadAllArtists(ctx context.Context, in *ReadAllArtistsRequest, opts ...grpc.CallOption) (*ReadAllArtistsResponse, error)
 	// UPDATE REQUEST
 	UpdateArtistName(ctx context.Context, in *UpdateArtistNameRequest, opts ...grpc.CallOption) (*UpdateArtistNameResponse, error)
 	UpdateArtistBio(ctx context.Context, in *UpdateArtistBioRequest, opts ...grpc.CallOption) (*UpdateArtistBioResponse, error)
@@ -115,6 +117,15 @@ func (c *artistServiceClient) ReadArtistLikesCountById(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *artistServiceClient) ReadAllArtists(ctx context.Context, in *ReadAllArtistsRequest, opts ...grpc.CallOption) (*ReadAllArtistsResponse, error) {
+	out := new(ReadAllArtistsResponse)
+	err := c.cc.Invoke(ctx, ArtistService_ReadAllArtists_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *artistServiceClient) UpdateArtistName(ctx context.Context, in *UpdateArtistNameRequest, opts ...grpc.CallOption) (*UpdateArtistNameResponse, error) {
 	out := new(UpdateArtistNameResponse)
 	err := c.cc.Invoke(ctx, ArtistService_UpdateArtistName_FullMethodName, in, out, opts...)
@@ -172,6 +183,7 @@ type ArtistServiceServer interface {
 	ReadArtistBioById(context.Context, *ReadArtistBioRequest) (*ReadArtistBioResponse, error)
 	ReadArtistFollowerCountById(context.Context, *ReadArtistFollowerCountRequest) (*ReadArtistFollowerCountResponse, error)
 	ReadArtistLikesCountById(context.Context, *ReadArtistLikesCountRequest) (*ReadArtistLikesCountResponse, error)
+	ReadAllArtists(context.Context, *ReadAllArtistsRequest) (*ReadAllArtistsResponse, error)
 	// UPDATE REQUEST
 	UpdateArtistName(context.Context, *UpdateArtistNameRequest) (*UpdateArtistNameResponse, error)
 	UpdateArtistBio(context.Context, *UpdateArtistBioRequest) (*UpdateArtistBioResponse, error)
@@ -203,6 +215,9 @@ func (UnimplementedArtistServiceServer) ReadArtistFollowerCountById(context.Cont
 }
 func (UnimplementedArtistServiceServer) ReadArtistLikesCountById(context.Context, *ReadArtistLikesCountRequest) (*ReadArtistLikesCountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadArtistLikesCountById not implemented")
+}
+func (UnimplementedArtistServiceServer) ReadAllArtists(context.Context, *ReadAllArtistsRequest) (*ReadAllArtistsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadAllArtists not implemented")
 }
 func (UnimplementedArtistServiceServer) UpdateArtistName(context.Context, *UpdateArtistNameRequest) (*UpdateArtistNameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateArtistName not implemented")
@@ -340,6 +355,24 @@ func _ArtistService_ReadArtistLikesCountById_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArtistService_ReadAllArtists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadAllArtistsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArtistServiceServer).ReadAllArtists(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArtistService_ReadAllArtists_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArtistServiceServer).ReadAllArtists(ctx, req.(*ReadAllArtistsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArtistService_UpdateArtistName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateArtistNameRequest)
 	if err := dec(in); err != nil {
@@ -460,6 +493,10 @@ var ArtistService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReadArtistLikesCountById",
 			Handler:    _ArtistService_ReadArtistLikesCountById_Handler,
+		},
+		{
+			MethodName: "ReadAllArtists",
+			Handler:    _ArtistService_ReadAllArtists_Handler,
 		},
 		{
 			MethodName: "UpdateArtistName",
