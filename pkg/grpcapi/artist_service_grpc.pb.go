@@ -30,7 +30,6 @@ const (
 	ArtistService_UpdateArtistFollowerCount_FullMethodName   = "/mpdb.ArtistService/UpdateArtistFollowerCount"
 	ArtistService_UpdateArtistLikesCount_FullMethodName      = "/mpdb.ArtistService/UpdateArtistLikesCount"
 	ArtistService_DeleteArtistById_FullMethodName            = "/mpdb.ArtistService/DeleteArtistById"
-	ArtistService_DeleteAllArtists_FullMethodName            = "/mpdb.ArtistService/DeleteAllArtists"
 )
 
 // ArtistServiceClient is the client API for ArtistService service.
@@ -52,7 +51,6 @@ type ArtistServiceClient interface {
 	UpdateArtistLikesCount(ctx context.Context, in *UpdateArtistLikesCountRequest, opts ...grpc.CallOption) (*UpdateArtistLikesCountResponse, error)
 	// DELETE REQUEST
 	DeleteArtistById(ctx context.Context, in *DeleteArtistByIdRequest, opts ...grpc.CallOption) (*DeleteArtistByIdResponse, error)
-	DeleteAllArtists(ctx context.Context, in *DeleteAllArtistsRequest, opts ...grpc.CallOption) (*DeleteAllArtistsResponse, error)
 }
 
 type artistServiceClient struct {
@@ -162,15 +160,6 @@ func (c *artistServiceClient) DeleteArtistById(ctx context.Context, in *DeleteAr
 	return out, nil
 }
 
-func (c *artistServiceClient) DeleteAllArtists(ctx context.Context, in *DeleteAllArtistsRequest, opts ...grpc.CallOption) (*DeleteAllArtistsResponse, error) {
-	out := new(DeleteAllArtistsResponse)
-	err := c.cc.Invoke(ctx, ArtistService_DeleteAllArtists_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ArtistServiceServer is the server API for ArtistService service.
 // All implementations must embed UnimplementedArtistServiceServer
 // for forward compatibility
@@ -190,7 +179,6 @@ type ArtistServiceServer interface {
 	UpdateArtistLikesCount(context.Context, *UpdateArtistLikesCountRequest) (*UpdateArtistLikesCountResponse, error)
 	// DELETE REQUEST
 	DeleteArtistById(context.Context, *DeleteArtistByIdRequest) (*DeleteArtistByIdResponse, error)
-	DeleteAllArtists(context.Context, *DeleteAllArtistsRequest) (*DeleteAllArtistsResponse, error)
 	mustEmbedUnimplementedArtistServiceServer()
 }
 
@@ -230,9 +218,6 @@ func (UnimplementedArtistServiceServer) UpdateArtistLikesCount(context.Context, 
 }
 func (UnimplementedArtistServiceServer) DeleteArtistById(context.Context, *DeleteArtistByIdRequest) (*DeleteArtistByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteArtistById not implemented")
-}
-func (UnimplementedArtistServiceServer) DeleteAllArtists(context.Context, *DeleteAllArtistsRequest) (*DeleteAllArtistsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteAllArtists not implemented")
 }
 func (UnimplementedArtistServiceServer) mustEmbedUnimplementedArtistServiceServer() {}
 
@@ -445,24 +430,6 @@ func _ArtistService_DeleteArtistById_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArtistService_DeleteAllArtists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteAllArtistsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArtistServiceServer).DeleteAllArtists(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArtistService_DeleteAllArtists_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArtistServiceServer).DeleteAllArtists(ctx, req.(*DeleteAllArtistsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ArtistService_ServiceDesc is the grpc.ServiceDesc for ArtistService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -513,10 +480,6 @@ var ArtistService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteArtistById",
 			Handler:    _ArtistService_DeleteArtistById_Handler,
-		},
-		{
-			MethodName: "DeleteAllArtists",
-			Handler:    _ArtistService_DeleteAllArtists_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

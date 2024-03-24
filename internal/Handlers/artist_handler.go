@@ -162,13 +162,3 @@ func (a *ArtistHandler) DeleteArtistById(ctx context.Context, req *grpcapi.Delet
 
 	return &grpcapi.DeleteArtistByIdResponse{}, nil
 }
-
-// DeleteAllArtists deletes all artists
-func (a *ArtistHandler) DeleteAllArtists(ctx context.Context, req *grpcapi.DeleteAllArtistsRequest) (*grpcapi.DeleteAllArtistsResponse, error) {
-	err := a.Service.DeleteAllArtists(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return &grpcapi.DeleteAllArtistsResponse{}, nil
-}

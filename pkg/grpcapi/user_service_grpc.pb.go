@@ -22,9 +22,10 @@ const (
 	UserService_CreateUser_FullMethodName              = "/mpdb.UserService/CreateUser"
 	UserService_GetUserById_FullMethodName             = "/mpdb.UserService/GetUserById"
 	UserService_GetUserByUsername_FullMethodName       = "/mpdb.UserService/GetUserByUsername"
+	UserService_GetUserByEmail_FullMethodName          = "/mpdb.UserService/GetUserByEmail"
 	UserService_UpdateUsername_FullMethodName          = "/mpdb.UserService/UpdateUsername"
+	UserService_UpdateEmail_FullMethodName             = "/mpdb.UserService/UpdateEmail"
 	UserService_DeleteUser_FullMethodName              = "/mpdb.UserService/DeleteUser"
-	UserService_DeleteAllUsers_FullMethodName          = "/mpdb.UserService/DeleteAllUsers"
 	UserService_IncrementLikes_FullMethodName          = "/mpdb.UserService/IncrementLikes"
 	UserService_IncrementFollowingCount_FullMethodName = "/mpdb.UserService/IncrementFollowingCount"
 )
@@ -38,11 +39,12 @@ type UserServiceClient interface {
 	// READ REQUESTS
 	GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserByIdResponse, error)
 	GetUserByUsername(ctx context.Context, in *GetUsernameRequest, opts ...grpc.CallOption) (*GetUsernameResponse, error)
+	GetUserByEmail(ctx context.Context, in *GetEmailRequest, opts ...grpc.CallOption) (*GetEmailResponse, error)
 	// UPDATE REQUESTS
-	UpdateUsername(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
+	UpdateUsername(ctx context.Context, in *UpdateUsernameRequest, opts ...grpc.CallOption) (*UpdateUsernameResponse, error)
+	UpdateEmail(ctx context.Context, in *UpdateUserEmailRequest, opts ...grpc.CallOption) (*UpdateUserEmailResponse, error)
 	// DELETE REQUESTS
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
-	DeleteAllUsers(ctx context.Context, in *DeleteAllUsersRequest, opts ...grpc.CallOption) (*DeleteAllUsersResponse, error)
 	// Additional Requests
 	IncrementLikes(ctx context.Context, in *IncrementLikesRequest, opts ...grpc.CallOption) (*IncrementLikesResponse, error)
 	IncrementFollowingCount(ctx context.Context, in *IncrementFollowingCountRequest, opts ...grpc.CallOption) (*IncrementFollowingCountResponse, error)
@@ -83,9 +85,27 @@ func (c *userServiceClient) GetUserByUsername(ctx context.Context, in *GetUserna
 	return out, nil
 }
 
-func (c *userServiceClient) UpdateUsername(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
-	out := new(UpdateUserResponse)
+func (c *userServiceClient) GetUserByEmail(ctx context.Context, in *GetEmailRequest, opts ...grpc.CallOption) (*GetEmailResponse, error) {
+	out := new(GetEmailResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUserByEmail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateUsername(ctx context.Context, in *UpdateUsernameRequest, opts ...grpc.CallOption) (*UpdateUsernameResponse, error) {
+	out := new(UpdateUsernameResponse)
 	err := c.cc.Invoke(ctx, UserService_UpdateUsername_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateEmail(ctx context.Context, in *UpdateUserEmailRequest, opts ...grpc.CallOption) (*UpdateUserEmailResponse, error) {
+	out := new(UpdateUserEmailResponse)
+	err := c.cc.Invoke(ctx, UserService_UpdateEmail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,15 +115,6 @@ func (c *userServiceClient) UpdateUsername(ctx context.Context, in *UpdateUserRe
 func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
 	out := new(DeleteUserResponse)
 	err := c.cc.Invoke(ctx, UserService_DeleteUser_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) DeleteAllUsers(ctx context.Context, in *DeleteAllUsersRequest, opts ...grpc.CallOption) (*DeleteAllUsersResponse, error) {
-	out := new(DeleteAllUsersResponse)
-	err := c.cc.Invoke(ctx, UserService_DeleteAllUsers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -137,11 +148,12 @@ type UserServiceServer interface {
 	// READ REQUESTS
 	GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error)
 	GetUserByUsername(context.Context, *GetUsernameRequest) (*GetUsernameResponse, error)
+	GetUserByEmail(context.Context, *GetEmailRequest) (*GetEmailResponse, error)
 	// UPDATE REQUESTS
-	UpdateUsername(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
+	UpdateUsername(context.Context, *UpdateUsernameRequest) (*UpdateUsernameResponse, error)
+	UpdateEmail(context.Context, *UpdateUserEmailRequest) (*UpdateUserEmailResponse, error)
 	// DELETE REQUESTS
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
-	DeleteAllUsers(context.Context, *DeleteAllUsersRequest) (*DeleteAllUsersResponse, error)
 	// Additional Requests
 	IncrementLikes(context.Context, *IncrementLikesRequest) (*IncrementLikesResponse, error)
 	IncrementFollowingCount(context.Context, *IncrementFollowingCountRequest) (*IncrementFollowingCountResponse, error)
@@ -161,14 +173,17 @@ func (UnimplementedUserServiceServer) GetUserById(context.Context, *GetUserByIdR
 func (UnimplementedUserServiceServer) GetUserByUsername(context.Context, *GetUsernameRequest) (*GetUsernameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByUsername not implemented")
 }
-func (UnimplementedUserServiceServer) UpdateUsername(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
+func (UnimplementedUserServiceServer) GetUserByEmail(context.Context, *GetEmailRequest) (*GetEmailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByEmail not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateUsername(context.Context, *UpdateUsernameRequest) (*UpdateUsernameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUsername not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateEmail(context.Context, *UpdateUserEmailRequest) (*UpdateUserEmailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmail not implemented")
 }
 func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
-}
-func (UnimplementedUserServiceServer) DeleteAllUsers(context.Context, *DeleteAllUsersRequest) (*DeleteAllUsersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteAllUsers not implemented")
 }
 func (UnimplementedUserServiceServer) IncrementLikes(context.Context, *IncrementLikesRequest) (*IncrementLikesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IncrementLikes not implemented")
@@ -243,8 +258,26 @@ func _UserService_GetUserByUsername_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetUserByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserByEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUserByEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserByEmail(ctx, req.(*GetEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_UpdateUsername_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateUserRequest)
+	in := new(UpdateUsernameRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -256,7 +289,25 @@ func _UserService_UpdateUsername_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: UserService_UpdateUsername_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).UpdateUsername(ctx, req.(*UpdateUserRequest))
+		return srv.(UserServiceServer).UpdateUsername(ctx, req.(*UpdateUsernameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdateEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateEmail(ctx, req.(*UpdateUserEmailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -275,24 +326,6 @@ func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_DeleteAllUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteAllUsersRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).DeleteAllUsers(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_DeleteAllUsers_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).DeleteAllUsers(ctx, req.(*DeleteAllUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -353,16 +386,20 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_GetUserByUsername_Handler,
 		},
 		{
+			MethodName: "GetUserByEmail",
+			Handler:    _UserService_GetUserByEmail_Handler,
+		},
+		{
 			MethodName: "UpdateUsername",
 			Handler:    _UserService_UpdateUsername_Handler,
 		},
 		{
-			MethodName: "DeleteUser",
-			Handler:    _UserService_DeleteUser_Handler,
+			MethodName: "UpdateEmail",
+			Handler:    _UserService_UpdateEmail_Handler,
 		},
 		{
-			MethodName: "DeleteAllUsers",
-			Handler:    _UserService_DeleteAllUsers_Handler,
+			MethodName: "DeleteUser",
+			Handler:    _UserService_DeleteUser_Handler,
 		},
 		{
 			MethodName: "IncrementLikes",

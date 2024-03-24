@@ -16,6 +16,7 @@ service PlaylistService {
 
   // UPDATE REQUEST
   rpc UpdatePlaylistTitle(UpdatePlaylistTitleRequest) returns (UpdatePlaylistTitleResponse) {}
+  rpc AddSongToPlaylist(AddSongToPlaylistRequest) returns (AddSongToPlaylistResponse) {}
 
   // DELETE REQUEST
   rpc DeletePlaylist(DeletePlaylistRequest) returns (DeletePlaylistResponse) {}
@@ -69,6 +70,16 @@ message UpdatePlaylistTitleRequest {
 message UpdatePlaylistTitleResponse {
   string id = 1;
   string title = 2;
+}
+
+message AddSongToPlaylistRequest {
+  string playlist_id = 1;
+  string song_id = 2;
+}
+
+message AddSongToPlaylistResponse {
+  bool success = 1;
+  string message = 2;
 }
 
 message DeletePlaylistRequest {
