@@ -10,7 +10,7 @@ Thank you for your interest in contributing to MBPlayer! I appreciate all forms 
 
 ## Pull Requests
 
-We practice [GitHub Flow](https://guides.github.com/introduction/flow/index.html). To contribute code:
+I practice [GitHub Flow](https://guides.github.com/introduction/flow/index.html). To contribute code:
 
 1. Fork the repository.
 2. Create a new branch from the `main` branch.
