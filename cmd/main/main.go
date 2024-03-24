@@ -35,14 +35,18 @@ func main() {
 	fmt.Println("Successfully connected to the database")
 
 	artistQueries := queries.NewArtistQueries(dbStore.DB)
+	userQueries := queries.NewUserQueries(dbStore.DB)
 
-	artistService := Services.NewArtistService(artistQueries) // Hypothetical constructor
+	artistService := Services.NewArtistService(artistQueries)
+	userService := Services.NewUserService(userQueries)
 
 	artistHandler := Handlers.NewArtistHandler(artistService)
+	userHandler := Handlers.NewUserHandler(userService)
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterArtistServiceServer(grpcServer, artistHandler)
-
+	pb.RegisterUserServiceServer(grpcServer, userHandler)
+	
 	port := "50051"
 	if envPort := os.Getenv("GRPC_PORT"); envPort != "" {
 		port = envPort

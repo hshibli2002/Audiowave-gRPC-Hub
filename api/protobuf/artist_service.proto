@@ -24,7 +24,6 @@ service ArtistService {
 
   // DELETE REQUEST
   rpc DeleteArtistById(DeleteArtistByIdRequest) returns (DeleteArtistByIdResponse) {}
-  rpc DeleteAllArtists(DeleteAllArtistsRequest) returns (DeleteAllArtistsResponse) {}
 }
 
 message Artist {
@@ -125,11 +124,6 @@ message DeleteArtistByIdRequest {
 }
 
 message DeleteArtistByIdResponse {
+  bool success = 1;
+  string message = 2;
 }
-
-message DeleteAllArtistsRequest {
-}
-
-message DeleteAllArtistsResponse {
-}
-

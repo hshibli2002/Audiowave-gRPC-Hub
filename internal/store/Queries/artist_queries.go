@@ -162,13 +162,3 @@ func (a *ArtistQueries) DeleteArtistById(ctx context.Context, id int64) error {
 
 	return nil
 }
-
-func (a *ArtistQueries) DeleteAllArtists(ctx context.Context) error {
-	query := `DELETE FROM mpdb.artists`
-	_, err := a.db.ExecContext(ctx, query)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}

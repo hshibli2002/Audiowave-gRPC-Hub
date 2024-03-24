@@ -13,13 +13,14 @@ service UserService {
   //  READ REQUESTS
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {}
   rpc GetUserByUsername(GetUsernameRequest) returns (GetUsernameResponse) {}
+  rpc GetUserByEmail(GetEmailRequest) returns (GetEmailResponse) {}
 
   //  UPDATE REQUESTS
-  rpc UpdateUsername(UpdateUserRequest) returns (UpdateUserResponse) {}
+  rpc UpdateUsername(UpdateUsernameRequest) returns (UpdateUsernameResponse) {}
+  rpc UpdateEmail(UpdateUserEmailRequest) returns (UpdateUserEmailResponse) {}
 
   //  DELETE REQUESTS
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
-  rpc DeleteAllUsers(DeleteAllUsersRequest) returns (DeleteAllUsersResponse) {}
 
   //Additional Requests
   rpc IncrementLikes(IncrementLikesRequest) returns (IncrementLikesResponse) {}
@@ -61,23 +62,42 @@ message GetUsernameResponse {
   User user = 1;              // User object
 }
 
-message UpdateUserRequest {
-  int64 user_id = 1;          // Unique identifier for the user
+message GetEmailRequest {
+  string email = 1;           // User's email address
 }
 
-message UpdateUserResponse {
+message GetEmailResponse {
   User user = 1;              // User object
+}
+
+message UpdateUsernameRequest {
+  int64 user_id = 1;          // Unique identifier for the user
+  string username = 2;        // User's username
+}
+
+message UpdateUsernameResponse {
+  bool success = 1;          // Success status
+  string message = 2;        // Message
+}
+
+message UpdateUserEmailRequest {
+  int64 user_id = 1;          // Unique identifier for the user
+  string email = 2;           // User's email address
+}
+
+message UpdateUserEmailResponse {
+  bool success = 1;          // Success status
+  string message = 2;        // Message
 }
 
 message DeleteUserRequest {
   int64 user_id = 1;          // Unique identifier for the user
 }
 
-message DeleteUserResponse {}
-
-message DeleteAllUsersRequest {}
-
-message DeleteAllUsersResponse {}
+message DeleteUserResponse {
+  bool success = 1;          // Success status
+  string message = 2;        // Message
+}
 
 message IncrementLikesRequest {
   int64 user_id = 1;          // Unique identifier for the user
@@ -85,7 +105,8 @@ message IncrementLikesRequest {
 }
 
 message IncrementLikesResponse {
-  User user = 1;              // User object
+  bool success = 1;          // Success status
+  string message = 2;        // Message
 }
 
 message IncrementFollowingCountRequest {
@@ -94,5 +115,6 @@ message IncrementFollowingCountRequest {
 }
 
 message IncrementFollowingCountResponse {
-  User user = 1;              // User object
+  bool success = 1;          // Success status
+  string message = 2;        // Message
 }

@@ -24,15 +24,14 @@ func InitDB(cfg *config.Config) (*DBStore, error) {
 		return nil, fmt.Errorf("failed to open database connection: %w", err)
 	}
 
-	// Optionally, set the schema search path to mpdb, public if necessary for your application
 	if _, err := db.Exec("SET search_path TO mpdb, public"); err != nil {
-		_ = db.Close() // Attempt to close the database connection on error
+		_ = db.Close()
 		return nil, fmt.Errorf("failed to set search path: %w", err)
 	}
 
 	// Verify the database connection
 	if err := db.Ping(); err != nil {
-		_ = db.Close() // Attempt to close the database connection on error
+		_ = db.Close()
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 

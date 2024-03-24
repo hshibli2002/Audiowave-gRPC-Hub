@@ -18,7 +18,6 @@ type ArtistService interface {
 	UpdateArtistFollowerCount(ctx context.Context, id int64) (*Models.Artist, error)
 	UpdateArtistLikesCount(ctx context.Context, id int64) (*Models.Artist, error)
 	DeleteArtistById(ctx context.Context, id int64) error
-	DeleteAllArtists(ctx context.Context) error
 }
 
 type ArtistServiceImpl struct {
@@ -72,8 +71,4 @@ func (a *ArtistServiceImpl) UpdateArtistLikesCount(ctx context.Context, id int64
 
 func (a *ArtistServiceImpl) DeleteArtistById(ctx context.Context, id int64) error {
 	return a.Queries.DeleteArtistById(ctx, id)
-}
-
-func (a *ArtistServiceImpl) DeleteAllArtists(ctx context.Context) error {
-	return a.Queries.DeleteAllArtists(ctx)
 }

@@ -13,12 +13,16 @@ service SongsService {
   // READ REQUESTS
   rpc GetSongById(GetSongByIdRequest) returns (GetSongByIdResponse);
   rpc GetSongsByArtistId(GetSongsByArtistIdRequest) returns (GetSongsByArtistIdResponse);
+  rpc GetSongsByArtistName(GetSongsByArtistNameRequest) returns (GetSongsByArtistNameResponse);
+  rpc GetSongsByTitle(GetSongsByTitleRequest) returns (GetSongsByTitleResponse);
+  rpc GetSongsByPlaylistId(GetSongsByPlaylistIdRequest) returns (GetSongsByPlaylistIdResponse);
 
   // UPDATE REQUESTS
   rpc UpdateSongTitle(UpdateSongTitleRequest) returns (UpdateSongTitleResponse);
-  rpc UpdateSongArtist(UpdateSongArtistRequest) returns (UpdateSongArtistResponse);
+  rpc IncrementSongLikesCount(IncrementSongLikesCountRequest) returns (IncrementSongLikesCountResponse) {}
 
   // DELETE REQUESTS
+  rpc RemoveSongFromPlaylist(RemoveSongFromPlaylistRequest) returns (RemoveSongFromPlaylistResponse);
   rpc DeleteSong(DeleteSongRequest) returns (DeleteSongResponse);
 }
 
@@ -57,10 +61,34 @@ message GetSongByIdResponse {
 }
 
 message GetSongsByArtistIdRequest {
-   int64 artist_id = 1;
+  int64 artist_id = 1;
 }
 
 message GetSongsByArtistIdResponse {
+  repeated Song songs = 1;
+}
+
+message GetSongsByArtistNameRequest {
+  string artist_name = 1;
+}
+
+message GetSongsByArtistNameResponse {
+  repeated Song songs = 1;
+}
+
+message GetSongsByTitleRequest {
+  string title = 1;
+}
+
+message GetSongsByTitleResponse {
+  repeated Song songs = 1;
+}
+
+message GetSongsByPlaylistIdRequest {
+  int64 playlist_id = 1;
+}
+
+message GetSongsByPlaylistIdResponse {
   repeated Song songs = 1;
 }
 
@@ -75,17 +103,22 @@ message UpdateSongTitleResponse {
   int64 artist_id = 3;
 }
 
-message UpdateSongArtistRequest {
-   int64 id = 1;
-   int64 artist_id = 2;
+message IncrementSongLikesCountRequest {
+  int64 id = 1;
 }
 
-message UpdateSongArtistResponse {
-  int64 id = 1;
-  string title = 2;
-  int64 artist_id = 3;
-  int32 duration = 4;
-  string created_at = 5;
+message IncrementSongLikesCountResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message RemoveSongFromPlaylistRequest {
+  int64 song_id = 1;
+}
+
+message RemoveSongFromPlaylistResponse {
+  bool success = 1;
+  string message = 2;
 }
 
 message DeleteSongRequest {
@@ -93,8 +126,7 @@ message DeleteSongRequest {
 }
 
 message DeleteSongResponse {
-  int64 id = 1;
+  bool success = 1;
+  string message = 2;
 }
-
-
 

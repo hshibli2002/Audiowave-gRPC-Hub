@@ -19,12 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SongsService_CreateSong_FullMethodName         = "/mpdb.SongsService/CreateSong"
-	SongsService_GetSongById_FullMethodName        = "/mpdb.SongsService/GetSongById"
-	SongsService_GetSongsByArtistId_FullMethodName = "/mpdb.SongsService/GetSongsByArtistId"
-	SongsService_UpdateSongTitle_FullMethodName    = "/mpdb.SongsService/UpdateSongTitle"
-	SongsService_UpdateSongArtist_FullMethodName   = "/mpdb.SongsService/UpdateSongArtist"
-	SongsService_DeleteSong_FullMethodName         = "/mpdb.SongsService/DeleteSong"
+	SongsService_CreateSong_FullMethodName              = "/mpdb.SongsService/CreateSong"
+	SongsService_GetSongById_FullMethodName             = "/mpdb.SongsService/GetSongById"
+	SongsService_GetSongsByArtistId_FullMethodName      = "/mpdb.SongsService/GetSongsByArtistId"
+	SongsService_GetSongsByArtistName_FullMethodName    = "/mpdb.SongsService/GetSongsByArtistName"
+	SongsService_GetSongsByTitle_FullMethodName         = "/mpdb.SongsService/GetSongsByTitle"
+	SongsService_GetSongsByPlaylistId_FullMethodName    = "/mpdb.SongsService/GetSongsByPlaylistId"
+	SongsService_UpdateSongTitle_FullMethodName         = "/mpdb.SongsService/UpdateSongTitle"
+	SongsService_IncrementSongLikesCount_FullMethodName = "/mpdb.SongsService/IncrementSongLikesCount"
+	SongsService_RemoveSongFromPlaylist_FullMethodName  = "/mpdb.SongsService/RemoveSongFromPlaylist"
+	SongsService_DeleteSong_FullMethodName              = "/mpdb.SongsService/DeleteSong"
 )
 
 // SongsServiceClient is the client API for SongsService service.
@@ -36,10 +40,14 @@ type SongsServiceClient interface {
 	// READ REQUESTS
 	GetSongById(ctx context.Context, in *GetSongByIdRequest, opts ...grpc.CallOption) (*GetSongByIdResponse, error)
 	GetSongsByArtistId(ctx context.Context, in *GetSongsByArtistIdRequest, opts ...grpc.CallOption) (*GetSongsByArtistIdResponse, error)
+	GetSongsByArtistName(ctx context.Context, in *GetSongsByArtistNameRequest, opts ...grpc.CallOption) (*GetSongsByArtistNameResponse, error)
+	GetSongsByTitle(ctx context.Context, in *GetSongsByTitleRequest, opts ...grpc.CallOption) (*GetSongsByTitleResponse, error)
+	GetSongsByPlaylistId(ctx context.Context, in *GetSongsByPlaylistIdRequest, opts ...grpc.CallOption) (*GetSongsByPlaylistIdResponse, error)
 	// UPDATE REQUESTS
 	UpdateSongTitle(ctx context.Context, in *UpdateSongTitleRequest, opts ...grpc.CallOption) (*UpdateSongTitleResponse, error)
-	UpdateSongArtist(ctx context.Context, in *UpdateSongArtistRequest, opts ...grpc.CallOption) (*UpdateSongArtistResponse, error)
+	IncrementSongLikesCount(ctx context.Context, in *IncrementSongLikesCountRequest, opts ...grpc.CallOption) (*IncrementSongLikesCountResponse, error)
 	// DELETE REQUESTS
+	RemoveSongFromPlaylist(ctx context.Context, in *RemoveSongFromPlaylistRequest, opts ...grpc.CallOption) (*RemoveSongFromPlaylistResponse, error)
 	DeleteSong(ctx context.Context, in *DeleteSongRequest, opts ...grpc.CallOption) (*DeleteSongResponse, error)
 }
 
@@ -78,6 +86,33 @@ func (c *songsServiceClient) GetSongsByArtistId(ctx context.Context, in *GetSong
 	return out, nil
 }
 
+func (c *songsServiceClient) GetSongsByArtistName(ctx context.Context, in *GetSongsByArtistNameRequest, opts ...grpc.CallOption) (*GetSongsByArtistNameResponse, error) {
+	out := new(GetSongsByArtistNameResponse)
+	err := c.cc.Invoke(ctx, SongsService_GetSongsByArtistName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *songsServiceClient) GetSongsByTitle(ctx context.Context, in *GetSongsByTitleRequest, opts ...grpc.CallOption) (*GetSongsByTitleResponse, error) {
+	out := new(GetSongsByTitleResponse)
+	err := c.cc.Invoke(ctx, SongsService_GetSongsByTitle_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *songsServiceClient) GetSongsByPlaylistId(ctx context.Context, in *GetSongsByPlaylistIdRequest, opts ...grpc.CallOption) (*GetSongsByPlaylistIdResponse, error) {
+	out := new(GetSongsByPlaylistIdResponse)
+	err := c.cc.Invoke(ctx, SongsService_GetSongsByPlaylistId_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *songsServiceClient) UpdateSongTitle(ctx context.Context, in *UpdateSongTitleRequest, opts ...grpc.CallOption) (*UpdateSongTitleResponse, error) {
 	out := new(UpdateSongTitleResponse)
 	err := c.cc.Invoke(ctx, SongsService_UpdateSongTitle_FullMethodName, in, out, opts...)
@@ -87,9 +122,18 @@ func (c *songsServiceClient) UpdateSongTitle(ctx context.Context, in *UpdateSong
 	return out, nil
 }
 
-func (c *songsServiceClient) UpdateSongArtist(ctx context.Context, in *UpdateSongArtistRequest, opts ...grpc.CallOption) (*UpdateSongArtistResponse, error) {
-	out := new(UpdateSongArtistResponse)
-	err := c.cc.Invoke(ctx, SongsService_UpdateSongArtist_FullMethodName, in, out, opts...)
+func (c *songsServiceClient) IncrementSongLikesCount(ctx context.Context, in *IncrementSongLikesCountRequest, opts ...grpc.CallOption) (*IncrementSongLikesCountResponse, error) {
+	out := new(IncrementSongLikesCountResponse)
+	err := c.cc.Invoke(ctx, SongsService_IncrementSongLikesCount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *songsServiceClient) RemoveSongFromPlaylist(ctx context.Context, in *RemoveSongFromPlaylistRequest, opts ...grpc.CallOption) (*RemoveSongFromPlaylistResponse, error) {
+	out := new(RemoveSongFromPlaylistResponse)
+	err := c.cc.Invoke(ctx, SongsService_RemoveSongFromPlaylist_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -114,10 +158,14 @@ type SongsServiceServer interface {
 	// READ REQUESTS
 	GetSongById(context.Context, *GetSongByIdRequest) (*GetSongByIdResponse, error)
 	GetSongsByArtistId(context.Context, *GetSongsByArtistIdRequest) (*GetSongsByArtistIdResponse, error)
+	GetSongsByArtistName(context.Context, *GetSongsByArtistNameRequest) (*GetSongsByArtistNameResponse, error)
+	GetSongsByTitle(context.Context, *GetSongsByTitleRequest) (*GetSongsByTitleResponse, error)
+	GetSongsByPlaylistId(context.Context, *GetSongsByPlaylistIdRequest) (*GetSongsByPlaylistIdResponse, error)
 	// UPDATE REQUESTS
 	UpdateSongTitle(context.Context, *UpdateSongTitleRequest) (*UpdateSongTitleResponse, error)
-	UpdateSongArtist(context.Context, *UpdateSongArtistRequest) (*UpdateSongArtistResponse, error)
+	IncrementSongLikesCount(context.Context, *IncrementSongLikesCountRequest) (*IncrementSongLikesCountResponse, error)
 	// DELETE REQUESTS
+	RemoveSongFromPlaylist(context.Context, *RemoveSongFromPlaylistRequest) (*RemoveSongFromPlaylistResponse, error)
 	DeleteSong(context.Context, *DeleteSongRequest) (*DeleteSongResponse, error)
 	mustEmbedUnimplementedSongsServiceServer()
 }
@@ -135,11 +183,23 @@ func (UnimplementedSongsServiceServer) GetSongById(context.Context, *GetSongById
 func (UnimplementedSongsServiceServer) GetSongsByArtistId(context.Context, *GetSongsByArtistIdRequest) (*GetSongsByArtistIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSongsByArtistId not implemented")
 }
+func (UnimplementedSongsServiceServer) GetSongsByArtistName(context.Context, *GetSongsByArtistNameRequest) (*GetSongsByArtistNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSongsByArtistName not implemented")
+}
+func (UnimplementedSongsServiceServer) GetSongsByTitle(context.Context, *GetSongsByTitleRequest) (*GetSongsByTitleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSongsByTitle not implemented")
+}
+func (UnimplementedSongsServiceServer) GetSongsByPlaylistId(context.Context, *GetSongsByPlaylistIdRequest) (*GetSongsByPlaylistIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSongsByPlaylistId not implemented")
+}
 func (UnimplementedSongsServiceServer) UpdateSongTitle(context.Context, *UpdateSongTitleRequest) (*UpdateSongTitleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSongTitle not implemented")
 }
-func (UnimplementedSongsServiceServer) UpdateSongArtist(context.Context, *UpdateSongArtistRequest) (*UpdateSongArtistResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateSongArtist not implemented")
+func (UnimplementedSongsServiceServer) IncrementSongLikesCount(context.Context, *IncrementSongLikesCountRequest) (*IncrementSongLikesCountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IncrementSongLikesCount not implemented")
+}
+func (UnimplementedSongsServiceServer) RemoveSongFromPlaylist(context.Context, *RemoveSongFromPlaylistRequest) (*RemoveSongFromPlaylistResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveSongFromPlaylist not implemented")
 }
 func (UnimplementedSongsServiceServer) DeleteSong(context.Context, *DeleteSongRequest) (*DeleteSongResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteSong not implemented")
@@ -211,6 +271,60 @@ func _SongsService_GetSongsByArtistId_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SongsService_GetSongsByArtistName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSongsByArtistNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SongsServiceServer).GetSongsByArtistName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SongsService_GetSongsByArtistName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SongsServiceServer).GetSongsByArtistName(ctx, req.(*GetSongsByArtistNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SongsService_GetSongsByTitle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSongsByTitleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SongsServiceServer).GetSongsByTitle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SongsService_GetSongsByTitle_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SongsServiceServer).GetSongsByTitle(ctx, req.(*GetSongsByTitleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SongsService_GetSongsByPlaylistId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSongsByPlaylistIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SongsServiceServer).GetSongsByPlaylistId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SongsService_GetSongsByPlaylistId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SongsServiceServer).GetSongsByPlaylistId(ctx, req.(*GetSongsByPlaylistIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SongsService_UpdateSongTitle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateSongTitleRequest)
 	if err := dec(in); err != nil {
@@ -229,20 +343,38 @@ func _SongsService_UpdateSongTitle_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SongsService_UpdateSongArtist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateSongArtistRequest)
+func _SongsService_IncrementSongLikesCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IncrementSongLikesCountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SongsServiceServer).UpdateSongArtist(ctx, in)
+		return srv.(SongsServiceServer).IncrementSongLikesCount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SongsService_UpdateSongArtist_FullMethodName,
+		FullMethod: SongsService_IncrementSongLikesCount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SongsServiceServer).UpdateSongArtist(ctx, req.(*UpdateSongArtistRequest))
+		return srv.(SongsServiceServer).IncrementSongLikesCount(ctx, req.(*IncrementSongLikesCountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SongsService_RemoveSongFromPlaylist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveSongFromPlaylistRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SongsServiceServer).RemoveSongFromPlaylist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SongsService_RemoveSongFromPlaylist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SongsServiceServer).RemoveSongFromPlaylist(ctx, req.(*RemoveSongFromPlaylistRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -285,12 +417,28 @@ var SongsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SongsService_GetSongsByArtistId_Handler,
 		},
 		{
+			MethodName: "GetSongsByArtistName",
+			Handler:    _SongsService_GetSongsByArtistName_Handler,
+		},
+		{
+			MethodName: "GetSongsByTitle",
+			Handler:    _SongsService_GetSongsByTitle_Handler,
+		},
+		{
+			MethodName: "GetSongsByPlaylistId",
+			Handler:    _SongsService_GetSongsByPlaylistId_Handler,
+		},
+		{
 			MethodName: "UpdateSongTitle",
 			Handler:    _SongsService_UpdateSongTitle_Handler,
 		},
 		{
-			MethodName: "UpdateSongArtist",
-			Handler:    _SongsService_UpdateSongArtist_Handler,
+			MethodName: "IncrementSongLikesCount",
+			Handler:    _SongsService_IncrementSongLikesCount_Handler,
+		},
+		{
+			MethodName: "RemoveSongFromPlaylist",
+			Handler:    _SongsService_RemoveSongFromPlaylist_Handler,
 		},
 		{
 			MethodName: "DeleteSong",
