@@ -81,6 +81,55 @@ func (a *ArtistHandler) ReadArtistBioById(ctx context.Context, req *grpcapi.Read
 	}, nil
 }
 
+// ReadArtistFollowerCount reads an artist's follower count by id
+func (a *ArtistHandler) ReadArtistFollowerCount(ctx context.Context, req *grpcapi.ReadArtistFollowerCountRequest) (*grpcapi.ReadArtistFollowerCountResponse, error) {
+	count, err := a.Service.ReadArtistFollowerCount(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &grpcapi.ReadArtistFollowerCountResponse{
+		FollowerCount: count,
+	}, nil
+}
+
+// ReadArtistLikesCount reads an artist's likes count by id
+func (a *ArtistHandler) ReadArtistLikesCount(ctx context.Context, req *grpcapi.ReadArtistLikesCountRequest) (*grpcapi.ReadArtistLikesCountResponse, error) {
+	count, err := a.Service.ReadArtistLikesCount(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &grpcapi.ReadArtistLikesCountResponse{
+		LikesCount: count,
+	}, nil
+
+}
+
+// ReadAllArtists reads all artists
+func (a *ArtistHandler) ReadAllArtists(ctx context.Context, req *grpcapi.ReadAllArtistsRequest) (*grpcapi.ReadAllArtistsResponse, error) {
+	artists, err := a.Service.ReadAllArtists(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var grpcArtists []*grpcapi.Artist
+	for _, artist := range artists {
+		grpcArtists = append(grpcArtists, &grpcapi.Artist{
+			Id:            artist.ID,
+			Name:          artist.Name,
+			Bio:           artist.Bio,
+			FollowerCount: artist.Followers,
+			LikesCount:    artist.Likes,
+		})
+	}
+
+	return &grpcapi.ReadAllArtistsResponse{
+		Success: true,
+		Artists: grpcArtists,
+	}, nil
+}
+
 // UpdateArtistName updates an artist's name
 func (a *ArtistHandler) UpdateArtistName(ctx context.Context, req *grpcapi.UpdateArtistNameRequest) (*grpcapi.UpdateArtistNameResponse, error) {
 	artist, err := a.Service.UpdateArtistName(ctx, req.Id, req.Name)
