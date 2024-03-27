@@ -1,10 +1,10 @@
 package Services
 
 import (
+	"Audiowave-gRPC-Hub/internal/Models"
+	queries "Audiowave-gRPC-Hub/internal/store/Queries"
 	"context"
 	"database/sql"
-	"mbplayer/internal/Models"
-	queries "mbplayer/internal/store/Queries"
 	"time"
 )
 

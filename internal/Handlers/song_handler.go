@@ -1,12 +1,12 @@
 package Handlers
 
 import (
+	"Audiowave-gRPC-Hub/internal/Services"
+	grpcapi "Audiowave-gRPC-Hub/pkg/grpcapi/api/protobuf"
 	"context"
 	"database/sql"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"mbplayer/internal/Services"
-	"mbplayer/pkg/grpcapi"
 	"strconv"
 	"time"
 )
@@ -28,7 +28,6 @@ func (s *SongHandler) CreateSong(ctx context.Context, req *grpcapi.CreateSongReq
 		playlistID = sql.NullInt64{Int64: req.PlaylistId, Valid: true}
 	}
 
-	// Parse release date string to time.Time
 	releaseDate, err := time.Parse("2006-01-02", req.ReleaseDate)
 	if err != nil {
 		// Return an error response if the date format is incorrect.
@@ -37,11 +36,9 @@ func (s *SongHandler) CreateSong(ctx context.Context, req *grpcapi.CreateSongReq
 
 	songID, err := s.Service.CreateSong(ctx, req.Title, req.ArtistId, playlistID, req.Duration, releaseDate)
 	if err != nil {
-		// Return an error response if there was an error creating the song.
 		return nil, status.Errorf(codes.Internal, "error creating song: %v", err)
 	}
 
-	// Construct the response using the song ID returned from the service.
 	return &grpcapi.CreateSongResponse{
 		Success: true,
 		Message: "Song created successfully with ID: " + strconv.FormatInt(songID, 10),

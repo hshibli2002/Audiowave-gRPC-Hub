@@ -1,16 +1,16 @@
 package main
 
 import (
+	"Audiowave-gRPC-Hub/config"
+	"Audiowave-gRPC-Hub/internal/Handlers"
+	"Audiowave-gRPC-Hub/internal/Services"
+	"Audiowave-gRPC-Hub/internal/store"
+	queries "Audiowave-gRPC-Hub/internal/store/Queries"
+	pb "Audiowave-gRPC-Hub/pkg/grpcapi/api/protobuf"
 	"database/sql"
 	"fmt"
 	"google.golang.org/grpc"
 	"log"
-	"mbplayer/config"
-	"mbplayer/internal/Handlers"
-	"mbplayer/internal/Services"
-	"mbplayer/internal/store"
-	queries "mbplayer/internal/store/Queries"
-	pb "mbplayer/pkg/grpcapi"
 	"net"
 )
 
@@ -56,19 +56,23 @@ func initializeGRPCServer(dbStore *store.DBStore) *grpc.Server {
 	artistQueries := queries.NewArtistQueries(dbStore.DB)
 	userQueries := queries.NewUserQueries(dbStore.DB)
 	songQueries := queries.NewSongQueries(dbStore.DB)
+	playlistQueries := queries.NewPlaylistQueries(dbStore.DB)
 
 	artistService := Services.NewArtistService(artistQueries)
 	userService := Services.NewUserService(userQueries)
 	songService := Services.NewSongService(songQueries)
+	playlistService := Services.NewPlaylistService(playlistQueries)
 
 	artistHandler := Handlers.NewArtistHandler(artistService)
 	userHandler := Handlers.NewUserHandler(userService)
 	songHandler := Handlers.NewSongHandler(songService)
+	playlistHandler := Handlers.NewPlaylistHandler(playlistService)
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterArtistServiceServer(grpcServer, artistHandler)
 	pb.RegisterUserServiceServer(grpcServer, userHandler)
 	pb.RegisterSongsServiceServer(grpcServer, songHandler)
+	pb.RegisterPlaylistServiceServer(grpcServer, playlistHandler)
 
 	return grpcServer
 }

@@ -1,9 +1,9 @@
 package Services
 
 import (
+	"Audiowave-gRPC-Hub/internal/Models"
+	queries "Audiowave-gRPC-Hub/internal/store/Queries"
 	"context"
-	"mbplayer/internal/Models"
-	queries "mbplayer/internal/store/Queries"
 )
 
 type UserService interface {

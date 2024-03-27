@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package mpdb;
+package api;
 
-option go_package = "github.com/hshibli2002/mbplayer/pkg/grpcapi";
+option go_package = "github.com/hshibli2002/Audiowave-gRPC-Hub/pkg/grpcapi";
 
 
 service ArtistService {

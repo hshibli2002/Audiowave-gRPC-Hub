@@ -1,9 +1,9 @@
 package queries
 
 import (
+	"Audiowave-gRPC-Hub/internal/Models"
 	"context"
 	"database/sql"
-	"mbplayer/internal/Models"
 )
 
 type UserQueries struct {

@@ -1,9 +1,9 @@
 package Handlers
 
 import (
+	"Audiowave-gRPC-Hub/internal/Services"
+	grpcapi "Audiowave-gRPC-Hub/pkg/grpcapi/api/protobuf"
 	"context"
-	"mbplayer/internal/Services"
-	"mbplayer/pkg/grpcapi"
 )
 
 type ArtistHandler struct {

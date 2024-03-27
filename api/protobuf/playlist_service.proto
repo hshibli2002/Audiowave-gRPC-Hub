@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package mpdb;
+package api;
 
-option go_package = "github.com/hshibli2002/MBplayer/pkg/grpcapi;grpcapi";
+option go_package = "github.com/hshibli2002/Audiowave-gRPC-Hub/pkg/grpcapi";
 
 
 service PlaylistService {
@@ -10,40 +10,47 @@ service PlaylistService {
   rpc CreatePlaylist(CreatePlaylistRequest) returns (CreatePlaylistResponse) {}
 
   // READ REQUEST
-  rpc GetPlaylistByID(GetPlaylistByIDRequest) returns (GetPlaylistByIDResponse) {}
+  rpc GetPlaylistById(GetPlaylistByIdRequest) returns (GetPlaylistByIdResponse) {}
   rpc GetPlaylistByTitle(GetPlaylistByTitleRequest) returns (GetPlaylistByTitleResponse) {}
-  rpc GetPlaylistByCreatorID(GetPlaylistByCreatorIDRequest) returns (GetPlaylistByCreatorIDResponse) {}
+  rpc GetPlaylistsByArtistId(GetPlaylistByArtistIdRequest) returns (GetPlaylistByArtistIdResponse) {}
+  rpc GetAllPlaylists(GetAllPlaylistsRequest) returns (GetAllPlaylistsResponse) {}
 
   // UPDATE REQUEST
   rpc UpdatePlaylistTitle(UpdatePlaylistTitleRequest) returns (UpdatePlaylistTitleResponse) {}
-  rpc AddSongToPlaylist(AddSongToPlaylistRequest) returns (AddSongToPlaylistResponse) {}
+  rpc AddSongToPlaylist(SongToPlaylistRequest) returns (SongToPlaylistResponse) {}
+  rpc RemoveSongFromPlaylist(SongToPlaylistRequest) returns (SongToPlaylistResponse) {}
 
   // DELETE REQUEST
   rpc DeletePlaylist(DeletePlaylistRequest) returns (DeletePlaylistResponse) {}
 }
 
 message Playlist {
-  string id = 1;
-  string title = 2;
-  int64 creator_id = 3;
-  string created_at = 4;
+  int64 playlist_id = 1;
+  string name = 2;
+  int64 artist_id = 3;
+  string release_date = 4;
+  int32 songs_count = 5;
+  int32 likes_count = 6;
 }
 
 message CreatePlaylistRequest {
-  string title = 1;
-  int64 creator_id = 2;
+  string name = 1;
+  int64 artist_id = 2;
+  string release_date = 3;
 }
 
 message CreatePlaylistResponse {
-  Playlist playlist = 1;
+  string message = 1;
+  bool Success = 2;
 }
 
-message GetPlaylistByIDRequest {
-  string id = 1;
+message GetPlaylistByIdRequest {
+  int64 id = 1;
 }
 
-message GetPlaylistByIDResponse {
+message GetPlaylistByIdResponse {
   Playlist playlist = 1;
+  bool Success = 2;
 }
 
 message GetPlaylistByTitleRequest {
@@ -52,42 +59,52 @@ message GetPlaylistByTitleRequest {
 
 message GetPlaylistByTitleResponse {
   repeated Playlist playlists = 1;
+  bool Success = 2;
 }
 
-message GetPlaylistByCreatorIDRequest {
-  int64 creator_id = 1;
+message GetPlaylistByArtistIdRequest {
+  int64 artist_id = 1;
 }
 
-message GetPlaylistByCreatorIDResponse {
+message GetPlaylistByArtistIdResponse {
   repeated Playlist playlists = 1;
+  bool Success = 2;
+}
+
+message GetAllPlaylistsRequest {}
+
+message GetAllPlaylistsResponse {
+  repeated Playlist playlists = 1;
+  bool Success = 2;
 }
 
 message UpdatePlaylistTitleRequest {
-  string id = 1;
-  string title = 2;
+  int64 playlist_id = 1;
+  string name = 2;
 }
 
 message UpdatePlaylistTitleResponse {
-  string id = 1;
-  string title = 2;
+  string message = 1;
+  bool success = 2;
 }
 
-message AddSongToPlaylistRequest {
-  string playlist_id = 1;
-  string song_id = 2;
+message SongToPlaylistRequest {
+  int64 playlist_id = 1;
+  int64 song_id = 2;
 }
 
-message AddSongToPlaylistResponse {
+message SongToPlaylistResponse {
   bool success = 1;
   string message = 2;
 }
 
 message DeletePlaylistRequest {
-  string id = 1;
+  int64 playlist_id = 1;
 }
 
 message DeletePlaylistResponse {
-  string id = 1;
+  bool success = 1;
+  string message = 2;
 }
 
 

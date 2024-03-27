@@ -1,10 +1,10 @@
 package queries
 
 import (
+	"Audiowave-gRPC-Hub/internal/Models"
 	"context"
 	"database/sql"
 	"fmt"
-	"mbplayer/internal/Models"
 	"time"
 )
 

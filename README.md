@@ -1,55 +1,63 @@
-# MBPlayer gRPC Service
+# Audiowave gRPC Hub Service
 
-MBPlayer is a music data management service implemented using Go, gRPC, PostgreSQL, and Elasticsearch for advanced searching capabilities. It provides functionalities for managing songs, artists, and playlists.
+MBPlayer is an educational project designed to deepen understanding of the Go programming language, particularly in the context of building scalable services with gRPC. It incorporates Elasticsearch to explore SEO tools and provides insights into structuring a robust Go project suitable for a microservices' architecture. This project also serves as a practical guide on hosting and securing such services.
+
+## Learning Objectives
+
+- Grasp the fundamentals and advanced topics of Go in the realm of backend development.
+- Delve into gRPC for efficient server-client communication.
+- Integrate Elasticsearch for powerful search capabilities and learning SEO tools.
+- Comprehend the structure and components of a scalable Go project with gRPC.
+- Master connecting and managing microservices in a distributed system.
+- Gain hands-on experience in hosting and securing backend services.
 
 ## Features
 
 - CRUD operations for songs, artists, and playlists.
-- Search functionality for songs and playlists.
-- User management, including follow/unfollow artists and like songs.
+- Elastic search integration for enhanced searching.
+- User management with follow and like features for artists and songs.
 
 ## Prerequisites
 
-Before you begin, ensure you have met the following requirements:
+Ensure the following tools and technologies are installed and properly configured:
 
-- Go 1.16 or later installed on your machine.
-- PostgreSQL installed and running.
-- (Optional) Elasticsearch installed and running for search functionalities.
+- Go (1.16 or later).
+- PostgreSQL for database management.
+- Elasticsearch for advanced search features (optional but recommended for learning SEO).
 
-## Setting Up
+## Installation and Setup
 
-To set up the MBPlayer service for development, follow these steps:
-
-### Clone the repository
+### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/MBPlayer.git
-cd MBPlayer
+git clone https://github.com/hshibli2002/Audiowave-gRPC-Hub.git
+cd Audiowave-gRPC-Hub
 ```
 
-## Configure the environment
+### Environment Configuration
 
-Create a `.env` file in the root directory of the project and add the following environment variables:
-
-```env
-- DB_HOST=localhost
-- DB_PORT=5432
-- DB_USER=your_db_user
-- DB_PASSWORD=your_db_password
-- DB_NAME=your_db_name
-- GRPC_PORT=50051
+Create a `.env` file at the root of the project with the necessary configurations:
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_NAME=your_db_name
+GRPC_PORT=50051
 ```
 
-## Install dependencies
+### Install the Dependencies
 
 ```bash
-    go mod download        
+go mod download
 ```
 
-## Running the service
-
-To run the MBPlayer service, use the following command:
+### Running the Services
 
 ```bash
-    go run cmd/main/main.go
+go run cmd/main/main.go
 ```
+
+## Additional Information
+For those interested in testing with a live database, I provide access to a hosted database instance.
+To request access, please email me at [hshibli2002@gmail.com]() with your inquiry.
