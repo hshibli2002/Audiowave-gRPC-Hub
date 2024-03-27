@@ -1,4 +1,4 @@
 .env
 CONTRIBUTING.md
 *.pb.go
-*.exe
+main.exe
