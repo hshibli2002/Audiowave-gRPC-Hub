@@ -1,6 +1,6 @@
 # Audiowave gRPC Hub Service
 
-MBPlayer is an educational project designed to deepen understanding of the Go programming language, particularly in the context of building scalable services with gRPC. It incorporates Elasticsearch to explore SEO tools and provides insights into structuring a robust Go project suitable for a microservices' architecture. This project also serves as a practical guide on hosting and securing such services.
+Audiowave gRPC Hub Service is an educational project designed to deepen understanding of the Go programming language, particularly in the context of building scalable services with gRPC. It will incorporate Elasticsearch to explore SEO tools and already provides insights into structuring a robust Go project suitable for a microservices' architecture. This project also serves as a practical guide on hosting and securing such services.
 
 ## Learning Objectives
 
@@ -13,9 +13,9 @@ MBPlayer is an educational project designed to deepen understanding of the Go pr
 
 ## Features
 
-- CRUD operations for songs, artists, and playlists.
-- Elastic search integration for enhanced searching.
-- User management with follow and like features for artists and songs.
+- CRUD operations for songs, artists, and playlists. [X]
+- Elastic search integration for enhanced searching. (Ongoing) []
+- User management with follow and like features for artists and songs in addition to their metadata. []
 
 ## Prerequisites
 
