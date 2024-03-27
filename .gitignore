@@ -1,4 +1,13 @@
-.env
-CONTRIBUTING.md
 *.pb.go
+*.env
 *.exe
+*.a
+*.o
+*.out
+*.dll
+*.so
+*.dylib
+*.zip
+*.tar.gz
+*.tar.bz2
+*.tar.xz
