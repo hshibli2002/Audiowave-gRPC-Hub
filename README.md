@@ -13,9 +13,9 @@ Audiowave gRPC Hub Service is an educational project designed to deepen understa
 
 ## Features
 
-- CRUD operations for songs, artists, and playlists. [X]
-- Elastic search integration for enhanced searching. (Ongoing) []
-- User management with follow and like features for artists and songs in addition to their metadata. []
+- [X] CRUD operations for songs, artists, and playlists.
+- [] Elastic search integration for enhanced searching. (Ongoing)
+- [] User management with follow and like features for artists and songs in addition to their metadata.
 
 ## Prerequisites
 
