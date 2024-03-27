@@ -11,6 +11,6 @@ type Song struct {
 	ArtistID    int64         `json:"artist_id"`   // Foreign key to the Artist
 	PlaylistID  sql.NullInt64 `json:"playlist_id"` // Can be null if not part of a Playlist
 	Duration    int32         `json:"duration"`
-	ReleaseDate time.Time     `json:"release_year"`
+	ReleaseDate time.Time     `json:"release_date"`
 	Likes       int32         `json:"likes_count"`
 }

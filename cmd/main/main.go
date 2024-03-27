@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"google.golang.org/grpc"
 	"log"
@@ -11,57 +12,75 @@ import (
 	queries "mbplayer/internal/store/Queries"
 	pb "mbplayer/pkg/grpcapi"
 	"net"
-	"os"
 )
 
 func main() {
+	cfg, err := loadAndValidateConfig()
+	if err != nil {
+		log.Fatalf("Invalid configuration: %v", err)
+	}
+
+	dbStore, err := initializeDatabase(cfg)
+	if err != nil {
+		log.Fatalf("Database initialization failed: %v", err)
+	}
+	defer func(DB *sql.DB) {
+		err := DB.Close()
+		if err != nil {
+			log.Fatalf("Failed to close database connection: %v", err)
+		}
+	}(dbStore.DB)
+
+	grpcServer := initializeGRPCServer(dbStore)
+
+	startGRPCServer(grpcServer, cfg.GRPCPort)
+}
+func loadAndValidateConfig() (*config.Config, error) {
 	cfg, err := config.LoadConfig()
 	if err != nil {
-		log.Fatalf("Error loading config: %v", err)
+		return nil, err
 	}
 
-	// Initialize the database connection
+	return cfg, nil
+}
+
+func initializeDatabase(cfg *config.Config) (*store.DBStore, error) {
 	dbStore, err := store.InitDB(cfg)
 	if err != nil {
-		log.Fatalf("Could not initialize database: %v", err)
+		return nil, err
 	}
-	defer func() {
-		err := dbStore.DB.Close()
-		if err != nil {
-			log.Fatalf("Could not close database: %v", err)
-		}
-	}()
+	return dbStore, nil
+}
 
-	fmt.Println("Successfully connected to the database")
-
+func initializeGRPCServer(dbStore *store.DBStore) *grpc.Server {
 	artistQueries := queries.NewArtistQueries(dbStore.DB)
 	userQueries := queries.NewUserQueries(dbStore.DB)
+	songQueries := queries.NewSongQueries(dbStore.DB)
 
 	artistService := Services.NewArtistService(artistQueries)
 	userService := Services.NewUserService(userQueries)
+	songService := Services.NewSongService(songQueries)
 
 	artistHandler := Handlers.NewArtistHandler(artistService)
 	userHandler := Handlers.NewUserHandler(userService)
+	songHandler := Handlers.NewSongHandler(songService)
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterArtistServiceServer(grpcServer, artistHandler)
 	pb.RegisterUserServiceServer(grpcServer, userHandler)
-	
-	port := "50051"
-	if envPort := os.Getenv("GRPC_PORT"); envPort != "" {
-		port = envPort
-	}
+	pb.RegisterSongsServiceServer(grpcServer, songHandler)
 
-	// Start listening on the specified port
+	return grpcServer
+}
+
+func startGRPCServer(grpcServer *grpc.Server, port string) {
 	listener, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		log.Fatalf("Failed to listen on port %s: %v", port, err)
 	}
 	fmt.Printf("gRPC server listening on port %s\n", port)
 
-	// Start serving gRPC requests
 	if err := grpcServer.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve gRPC server: %v", err)
 	}
-
 }

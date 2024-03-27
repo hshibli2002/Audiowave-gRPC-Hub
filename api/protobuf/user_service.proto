@@ -14,6 +14,7 @@ service UserService {
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {}
   rpc GetUserByUsername(GetUsernameRequest) returns (GetUsernameResponse) {}
   rpc GetUserByEmail(GetEmailRequest) returns (GetEmailResponse) {}
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse) {}
 
   //  UPDATE REQUESTS
   rpc UpdateUsername(UpdateUsernameRequest) returns (UpdateUsernameResponse) {}
@@ -68,6 +69,13 @@ message GetEmailRequest {
 
 message GetEmailResponse {
   User user = 1;              // User object
+}
+
+message GetAllUsersRequest {}
+
+message GetAllUsersResponse {
+  bool Success = 1;          // Success status
+  repeated User users = 2;    // List of all users
 }
 
 message UpdateUsernameRequest {
