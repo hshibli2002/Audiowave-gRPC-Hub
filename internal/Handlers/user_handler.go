@@ -81,6 +81,28 @@ func (u *UserHandler) GetUserByEmail(ctx context.Context, req *grpcapi.GetEmailR
 	}, nil
 }
 
+// GetAllUsers reads all users
+func (u *UserHandler) GetAllUsers(ctx context.Context, req *grpcapi.GetAllUsersRequest) (*grpcapi.GetAllUsersResponse, error) {
+	users, err := u.Service.GetAllUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var grpcUsers []*grpcapi.User
+	for _, user := range users {
+		grpcUsers = append(grpcUsers, &grpcapi.User{
+			UserId:   user.ID,
+			Username: user.Username,
+			Email:    user.Email,
+		})
+	}
+
+	return &grpcapi.GetAllUsersResponse{
+		Success: true,
+		Users:   grpcUsers,
+	}, nil
+}
+
 // UpdateUsername updates a user's username
 func (u *UserHandler) UpdateUsername(ctx context.Context, req *grpcapi.UpdateUsernameRequest) (*grpcapi.UpdateUsernameResponse, error) {
 	err := u.Service.UpdateUsername(ctx, req.UserId, req.Username)

@@ -13,13 +13,14 @@ service SongsService {
   // READ REQUESTS
   rpc GetSongById(GetSongByIdRequest) returns (GetSongByIdResponse);
   rpc GetSongsByArtistId(GetSongsByArtistIdRequest) returns (GetSongsByArtistIdResponse);
-  rpc GetSongsByArtistName(GetSongsByArtistNameRequest) returns (GetSongsByArtistNameResponse);
-  rpc GetSongsByTitle(GetSongsByTitleRequest) returns (GetSongsByTitleResponse);
+  rpc GetSongByTitle(GetSongsByTitleRequest) returns (GetSongsByTitleResponse);
   rpc GetSongsByPlaylistId(GetSongsByPlaylistIdRequest) returns (GetSongsByPlaylistIdResponse);
+  rpc GetAllSongs(GetAllSongsRequest) returns (GetAllSongsResponse);
 
   // UPDATE REQUESTS
   rpc UpdateSongTitle(UpdateSongTitleRequest) returns (UpdateSongTitleResponse);
   rpc IncrementSongLikesCount(IncrementSongLikesCountRequest) returns (IncrementSongLikesCountResponse) {}
+  rpc DecrementSongLikesCount(DecrementSongLikesCountRequest) returns (DecrementSongLikesCountResponse) {}
 
   // DELETE REQUESTS
   rpc RemoveSongFromPlaylist(RemoveSongFromPlaylistRequest) returns (RemoveSongFromPlaylistResponse);
@@ -30,22 +31,24 @@ message Song {
   int64 id = 1;
   string title = 2;
   int64 artist_id = 3;
-  int32 duration = 4;
-  string created_at = 5;
+  int64 playlist_id = 4;
+  int32 duration = 5;
+  string release_date = 6;
+  int32 likes_count = 7;
 }
 
 message CreateSongRequest {
   string title = 1;
-   int64 artist_id = 2;
-  int32 duration = 3;
+  int64 artist_id = 2;
+  float duration = 3;
+  string release_date = 4;
+  int64 playlist_id = 5;
+  int32 likes_count = 6;
 }
 
 message CreateSongResponse {
-  int64 id = 1;
-  string title = 2;
-   int64 artist_id = 3;
-  int32 duration = 4;
-  string created_at = 5;
+  bool Success = 1;
+  string Message = 2;
 }
 
 message GetSongByIdRequest {
@@ -53,11 +56,7 @@ message GetSongByIdRequest {
 }
 
 message GetSongByIdResponse {
-  int64 id = 1;
-  string title = 2;
-  int64 artist_id = 3;
-  int32 duration = 4;
-  string created_at = 5;
+  Song song = 1;
 }
 
 message GetSongsByArtistIdRequest {
@@ -68,20 +67,12 @@ message GetSongsByArtistIdResponse {
   repeated Song songs = 1;
 }
 
-message GetSongsByArtistNameRequest {
-  string artist_name = 1;
-}
-
-message GetSongsByArtistNameResponse {
-  repeated Song songs = 1;
-}
-
 message GetSongsByTitleRequest {
   string title = 1;
 }
 
 message GetSongsByTitleResponse {
-  repeated Song songs = 1;
+  Song song = 1;
 }
 
 message GetSongsByPlaylistIdRequest {
@@ -92,15 +83,21 @@ message GetSongsByPlaylistIdResponse {
   repeated Song songs = 1;
 }
 
+message GetAllSongsRequest{}
+
+message GetAllSongsResponse{
+  bool success = 1;
+  repeated Song songs = 2;
+}
+
 message UpdateSongTitleRequest {
   int64 id = 1;
   string title = 2;
 }
 
 message UpdateSongTitleResponse {
-  int64 id = 1;
-  string title = 2;
-  int64 artist_id = 3;
+  bool success = 1;
+  string message = 2;
 }
 
 message IncrementSongLikesCountRequest {
@@ -108,6 +105,15 @@ message IncrementSongLikesCountRequest {
 }
 
 message IncrementSongLikesCountResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message DecrementSongLikesCountRequest {
+  int64 id = 1;
+}
+
+message DecrementSongLikesCountResponse {
   bool success = 1;
   string message = 2;
 }

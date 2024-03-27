@@ -67,6 +67,30 @@ func (u *UserQueries) GetUserByEmail(ctx context.Context, email string) (*Models
 	return &user, nil
 }
 
+func (u *UserQueries) GetAllUsers(ctx context.Context) ([]*Models.User, error) {
+	query := `SELECT * FROM mpdb.users`
+	rows, err := u.db.QueryContext(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var users []*Models.User
+	for rows.Next() {
+		var user Models.User
+		err = rows.Scan(&user.ID, &user.Username, &user.Email, &user.Password)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, &user)
+	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
 func (u *UserQueries) UpdateUsername(ctx context.Context, id int64, username string) error {
 	query := `UPDATE mpdb.users SET username = $1 WHERE user_id = $2`
 	_, err := u.db.ExecContext(ctx, query, username, id)

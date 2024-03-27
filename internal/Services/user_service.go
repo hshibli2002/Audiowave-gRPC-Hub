@@ -11,6 +11,7 @@ type UserService interface {
 	GetUserById(ctx context.Context, id int64) (*Models.User, error)
 	GetUserByUsername(ctx context.Context, name string) (*Models.User, error)
 	GetUserByEmail(ctx context.Context, email string) (*Models.User, error)
+	GetAllUsers(ctx context.Context) ([]*Models.User, error)
 	UpdateUsername(ctx context.Context, id int64, username string) error
 	UpdateEmail(ctx context.Context, id int64, email string) error
 	DeleteUser(ctx context.Context, id int64) error
@@ -40,6 +41,10 @@ func (u *UserServiceImpl) GetUserByUsername(ctx context.Context, Username string
 
 func (u *UserServiceImpl) GetUserByEmail(ctx context.Context, email string) (*Models.User, error) {
 	return u.Queries.GetUserByEmail(ctx, email)
+}
+
+func (u *UserServiceImpl) GetAllUsers(ctx context.Context) ([]*Models.User, error) {
+	return u.Queries.GetAllUsers(ctx)
 }
 
 func (u *UserServiceImpl) UpdateUsername(ctx context.Context, id int64, username string) error {
