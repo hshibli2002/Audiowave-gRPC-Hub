@@ -2,7 +2,7 @@ package Handlers
 
 import (
 	"Audiowave-gRPC-Hub/internal/Services"
-	grpcapi "Audiowave-gRPC-Hub/pkg/grpcapi/api/protobuf"
+	grpcapi "Audiowave-gRPC-Hub/pkg/grpcapi"
 	"context"
 )
 

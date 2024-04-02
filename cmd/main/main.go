@@ -2,11 +2,12 @@ package main
 
 import (
 	"Audiowave-gRPC-Hub/config"
+	"Audiowave-gRPC-Hub/internal/Elasticsearch"
 	"Audiowave-gRPC-Hub/internal/Handlers"
 	"Audiowave-gRPC-Hub/internal/Services"
 	"Audiowave-gRPC-Hub/internal/store"
 	queries "Audiowave-gRPC-Hub/internal/store/Queries"
-	pb "Audiowave-gRPC-Hub/pkg/grpcapi/api/protobuf"
+	pb "Audiowave-gRPC-Hub/pkg/grpcapi"
 	"database/sql"
 	"fmt"
 	"google.golang.org/grpc"
@@ -32,7 +33,11 @@ func main() {
 	}(dbStore.DB)
 
 	grpcServer := initializeGRPCServer(dbStore)
-
+	Elasticsearch.InitElasticsearch()
+	Elasticsearch.InitializeIndices()
+	if err != nil {
+		log.Fatalf("Failed to initialize indices: %v", err)
+	}
 	startGRPCServer(grpcServer, cfg.GRPCPort)
 }
 func loadAndValidateConfig() (*config.Config, error) {

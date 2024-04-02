@@ -7,13 +7,15 @@ import (
 )
 
 type Config struct {
-	DBHost     string
-	DBPort     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-	DBSSLMode  string
-	GRPCPort   string
+	DBHost      string
+	DBPort      string
+	DBUser      string
+	DBPassword  string
+	DBName      string
+	DBSSLMode   string
+	GRPCPort    string
+	ES_CLOUD_ID string
+	ES_API_KEY  string
 }
 
 func LoadConfig() (*Config, error) {
@@ -32,5 +34,7 @@ func LoadConfig() (*Config, error) {
 	config.DBName = viper.GetString("DB_NAME")
 	config.DBSSLMode = viper.GetString("DB_SSLMODE")
 	config.GRPCPort = viper.GetString("GRPC_PORT")
+	config.ES_CLOUD_ID = viper.GetString("ES_CLOUD_ID")
+	config.ES_API_KEY = viper.GetString("ES_API_KEY")
 	return &config, nil
 }

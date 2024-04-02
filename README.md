@@ -38,11 +38,11 @@ cd Audiowave-gRPC-Hub
 
 Create a `.env` file at the root of the project with the necessary configurations:
 ```
-DB_HOST=localhost
+DB_HOST=<host_name>
 DB_PORT=5432
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-DB_NAME=your_db_name
+DB_USER=<db_user>
+DB_PASSWORD=<db_password>
+DB_NAME=<db_name>
 GRPC_PORT=50051
 ```
 
@@ -50,6 +50,12 @@ GRPC_PORT=50051
 
 ```bash
 go mod download
+```
+
+### Compile the Protobuf Files
+
+```bash
+protoc -I ./api/protobuf --go_out=./pkg/grpcapi --go_opt=paths=source_relative --go-grpc_out=./pkg/grpcapi --go-grpc_opt=paths=source_relative ./api/protobuf/*.proto
 ```
 
 ### Running the Services
